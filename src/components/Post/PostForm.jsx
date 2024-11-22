@@ -318,6 +318,47 @@ font-family: "Pretendard Variable";
 
 `;
 
+const SearchResultContainer = styled.div`
+margin-top:15px;
+  position: absolute; /* 절대 위치 설정 */
+  top: 50px; /* 입력 필드 아래에 표시 */
+  left: 0;
+  width: 100%;
+  max-height: 450px; /* 최대 높이 설정 */
+  overflow-y: auto;
+  z-index: 100; /* 다른 요소 위에 표시되도록 설정 */
+  border: 1px solid ${({ theme }) => theme.colors.main};
+  background: var(--WHITE, #FFF);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+`;
+const SearchResultItem = styled.div`
+  padding: 10px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
+  cursor: pointer;
+  display: flex;
+padding: 21px 0px;
+flex-direction: column;
+justify-content: center;
+align-items: flex-start;
+gap: 7px;
+align-self: stretch;
+color: #3F3F3F;
+font-family: "Pretendard Variable";
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: 124.9%; /* 24.98px */
+letter-spacing: 0.4px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.lightGray};
+  }
+`;
+
 const PostForm = () => {
   const [lectureName, setLectureName] = useState('');
   const [instructorName, setInstructorName] = useState('');
@@ -334,6 +375,39 @@ const PostForm = () => {
     const [lectureNameError, setLectureNameError] = useState('');
     const [instructorNameError, setInstructorNameError] = useState('');
     const [reviewError, setReviewError] = useState('');
+
+    const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  
+  const lectureData = [
+    { id: 1, name: '초보자를 위한 화초 기르기', platform: '플로스', instructor: '갸또디솔레 대표 서지현' },
+    { id: 2, name: '중급자를 위한 화초 관리법', platform: '플로스', instructor: '갸또디솔레 대표 서지현' },
+    { id: 3, name: '고급 화초 재배 가이드', platform: '플로스', instructor: '갸또디솔레 대표 서지현' },
+  ];
+  
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  
+    // 검색 결과 필터링
+    if (value.trim() !== '') {
+      const filteredResults = lectureData.filter((lecture) =>
+        lecture.name.includes(value)
+      );
+      setSearchResults(filteredResults);
+    } else {
+      setSearchResults([]);
+    }
+  };
+    
+      const handleResultClick = (result) => {
+        setSearchTerm(result.name); // 검색어에 선택된 결과를 설정
+        setLectureName(result.name); // 강의명 저장
+        setInstructorName(result.instructor); // 강사명 자동 설정
+        setSearchResults([]); // 결과 초기화
+      };
+      
 
   const handleTagKeyDown = (e) => {
     if (e.key === 'Enter' && tagInput.trim() !== '') {
@@ -352,22 +426,16 @@ const PostForm = () => {
     }
   };
 
-  const handleLectureNameChange = (e) => {
-    const value = e.target.value;
-    setLectureName(value);
-    if (value.trim() === '') {
-      setLectureNameError('강의명이 입력되지 않았습니다.');
-    } else {
-      setLectureNameError('');
-    }
-  };
+
   // 실시간 강사명 유효성 검사
   const handleInstructorNameChange = (e) => {
     const value = e.target.value;
     setInstructorName(value);
     if (value.length > 10) {
       setInstructorNameError('10자 이내로 입력해주세요.');
-    } else {
+    }  if (value.trim() === '') {
+        setLectureNameError('강의명이 입력되지 않았습니다.');
+      } else {
       setInstructorNameError('');
     }
   };
@@ -460,19 +528,34 @@ const PostForm = () => {
       </RequiredNote>
 
       <Section>
-        <Label>
-          <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 강의명
-        </Label>
-        <StyledInputContainer>
-          <StyledInput
-            placeholder="강의명을 입력해주세요."
-            value={lectureName}
-            onChange={handleLectureNameChange}
-          />
-          {!lectureName && <PlaceholderText>직접 입력하기</PlaceholderText>}
-        </StyledInputContainer>
-        {lectureNameError && <ErrorMessage>{lectureNameError}</ErrorMessage>}
-      </Section>
+  <Label>
+    <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 강의명
+  </Label>
+  <StyledInputContainer>
+    <StyledInput
+      placeholder="강의명을 검색해주세요."
+      value={searchTerm} // searchTerm 상태를 입력 필드 값으로 사용
+      onChange={handleSearchChange} // 입력값 변경 시 검색 실행
+    />
+    {searchResults.length > 0 && (
+      <SearchResultContainer>
+        {searchResults.map((result) => (
+          <SearchResultItem
+            key={result.id}
+            onClick={() => handleResultClick(result)} // 클릭 시 선택된 강의명을 입력 필드에 설정
+          >
+            {result.name}
+            <br />
+            <div style={{ fontSize: '20px', color: '#888' }}>
+              {result.platform} | {result.instructor}
+            </div>
+          </SearchResultItem>
+        ))}
+      </SearchResultContainer>
+    )}
+  </StyledInputContainer>
+</Section>
+
 
       <Section>
   <Label>
