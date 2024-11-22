@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Input from './Input';
+import Platform from './Platform';
+import ImageUpload from './ImageUpload';
+import ReviewInput from './ReviewInput';
+import StarRating from './StarRating';
+import CompletionTimeInput from './CompletionTimeInput';
 
 const Container = styled.div`
   width: 100%;
@@ -30,10 +36,6 @@ const RequiredNote = styled.p`
   text-align: right;
 `;
 
-const Section = styled.div`
-  margin-bottom: 106px;
-  position: relative;
-`;
 
 const Icon = styled.img`
   width: 9px;
@@ -41,249 +43,7 @@ const Icon = styled.img`
   margin-right: 13px;
 `;
 
-const Label = styled.label`
-  color: ${({ theme }) => theme.colors.black};
-  display: block;
-  margin-bottom: 13px;
-  font-family: 'Elice DX Neolli';
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 124.9%;
-`;
 
-const StyledInputContainer = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
-`;
-
-const StyledInput = styled.input`
-  width: 100%;
-  font-size: 20px;
-    height:45px;
-  padding: 15px 16px;
-  font-family: 'Pretendard Variable';
-  font-weight: 300;
-  border: 1px solid ${({ theme }) => theme.colors.main};
-  background: #fff;
-  box-shadow: none;
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.gray};
-font-size: 20px;
-font-style: normal;
-font-family: 'Pretendard Variable';
-  font-weight: 300;
-line-height: 124.9%; /* 24.98px */
-letter-spacing: 0.4px;
-  }
-
-  &:focus {
-    outline: none; /* 기본 outline 제거 */
-    border-color: ${({ theme }) => theme.colors.main}; /* 테두리 색상 유지 */
-    box-shadow:0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  }
-`;
-
-
-const PlaceholderText = styled.span`
-  position: absolute;
-  right: 16px;
-  color: ${({ theme }) => theme.colors.main};
-  font-family: 'Pretendard Variable';
-  font-size:20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 124.9%;
-`;
-
-const TagList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 11px;
-  margin-top: 34px;
-`;
-
-const Tag = styled.span`
-border-radius: 20px;
-border: 1px solid  ${({ theme }) => theme.colors.main};
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  background-color:  ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.main};
-
-font-family: "Elice DX Neolli";
-font-size: 20px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-  cursor: pointer;
-
-`;
-
-const TagDeleteButton = styled.button`
-  margin-left: 10px;
-  background: none;
-  border: none;
-  color: ${({ theme }) => theme.colors.gray};
-  cursor: pointer;
-
-font-family: "Elice DX Neolli";
-font-size: 20px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-`;
-
-
-const AddImageButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin-top: 25px;
-  background-color:  ${({ theme }) => theme.colors.white};
-border: 1px dashed  ${({ theme }) => theme.colors.main};
-  display: flex;
-width: 160px;
-height: 160px;
-padding: 10px;
-justify-content: center;
-align-items: center;
-gap: 10px;
-flex-shrink: 0;
-
-color:  ${({ theme }) => theme.colors.black};
-font-family: "Elice DX Neolli";
-font-size: 64px;
-font-style: normal;
-font-weight: 300;
-line-height: 124.9%; /* 79.936px */
-
-&:focus {
-    border: 1px solid  ${({ theme }) => theme.colors.main};
- 
-  }
-`;
-
-const StarRating = styled.div`
-gap:5px;
-  display: flex;
-align-items: flex-end;
-align-self: stretch;
-`;
-
-
-const Star = styled.span`
-  width: 46px;
-  height: 48px;
-  cursor: pointer;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
-const Count=styled.span`
-color: ${({ theme }) => theme.colors.black};
-font-family: "Elice DX Neolli";
-font-size: 32px;
-font-style: normal;
-font-weight: 500;
-line-height: 124.9%; /* 39.968px */
-margin-left:36px;
-`;
-
-const StyledTextareaContainer = styled.div`
-  position: relative;
-  margin-top: 20px;
-`;
-
-const StyledTextarea = styled.textarea`
-  width: 100%;
-  height: 316px;
-  padding: 28px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #fff6eb;
-  resize: none; 
-  outline: none;
- box-shadow: none;
-  overflow-wrap: break-word; 
-  word-break: break-word; 
-  white-space: pre-wrap; 
-  color: #232323;
-  font-family: "Pretendard Variable";
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 157%; /* 28.26px */
-  letter-spacing: 0.36px;
-
-  &::placeholder {
-    color: #888;
-  }
-
-  &:focus {
-    outline: none; /* 기본 outline 제거 */
-    border-color: ${({ theme }) => theme.colors.main}; /* 테두리 색상 유지 */
-    box-shadow: none; /* 추가적인 효과 제거 */
-  }
-`;
-
-
-const CharacterCount = styled.span`
-  position: absolute;
-  bottom: 10px;
-  left: 28px;
-  font-family: "Pretendard Variable";
-  color: #888;
-text-align: justify;
-leading-trim: both;
-text-edge: cap;
-font-size: 18px;
-font-style: normal;
-font-weight: 500;
-line-height: 157%; /* 28.26px */
-letter-spacing: 0.36px;
-`;
-
-
-const RadioGroup = styled.div`
-margin-top:15px;
-  display: flex;
-  width: 250px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-`;
-
-const RadioOption = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-   margin-bottom: 30px;
-
-  img {
-    width: 24px; 
-    height: 24px;
-  }
-
-  span {
-    color: #000;
-    font-family: 'Pretendard Variable';
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 124.9%; /* 27.478px */
-margin-left:23px;
-  }
-`;
 
 const SubmitButton = styled.button`
   display: block;
@@ -318,46 +78,6 @@ font-family: "Pretendard Variable";
 
 `;
 
-const SearchResultContainer = styled.div`
-margin-top:15px;
-  position: absolute; /* 절대 위치 설정 */
-  top: 50px; /* 입력 필드 아래에 표시 */
-  left: 0;
-  width: 100%;
-  max-height: 450px; /* 최대 높이 설정 */
-  overflow-y: auto;
-  z-index: 100; /* 다른 요소 위에 표시되도록 설정 */
-  border: 1px solid ${({ theme }) => theme.colors.main};
-  background: var(--WHITE, #FFF);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-`;
-const SearchResultItem = styled.div`
-  padding: 10px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
-  cursor: pointer;
-  display: flex;
-padding: 21px 0px;
-flex-direction: column;
-justify-content: center;
-align-items: flex-start;
-gap: 7px;
-align-self: stretch;
-color: #3F3F3F;
-font-family: "Pretendard Variable";
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: 124.9%; /* 24.98px */
-letter-spacing: 0.4px;
-
-  &:last-child {
-    border-bottom: none;
-  }
-
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.lightGray};
-  }
-`;
 
 const PostForm = () => {
   const [lectureName, setLectureName] = useState('');
@@ -455,9 +175,20 @@ const PostForm = () => {
 
   const handleStarClick = (index) => {
     setSelectedStars((prevStars) =>
-      prevStars.map((selected, i) => (i <= index ? true : false)) // 선택된 별 갯수 반영
+      prevStars.map((selected, i) => {
+        if (i === index) {
+          return !selected; // 클릭된 별의 선택 상태를 반전
+        }
+        if (i > index) {
+          return false; // 클릭한 별 이후는 선택 해제
+        }
+        return true; // 클릭한 별 이전은 선택 유지
+      })
     );
-    setRating(index + 1); 
+  
+    setRating((prevRating) =>
+      selectedStars[index] ? prevRating - 1 : index + 1 // 선택 상태에 따라 별점 변경
+    );
   };
 
   const handleTagRemove = (indexToRemove) => {
@@ -527,156 +258,55 @@ const PostForm = () => {
         <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 표시 항목은 필수 항목입니다.
       </RequiredNote>
 
-      <Section>
-  <Label>
-    <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 강의명
-  </Label>
-  <StyledInputContainer>
-    <StyledInput
-      placeholder="강의명을 검색해주세요."
-      value={searchTerm} // searchTerm 상태를 입력 필드 값으로 사용
-      onChange={handleSearchChange} // 입력값 변경 시 검색 실행
-    />
-    {searchResults.length > 0 && (
-      <SearchResultContainer>
-        {searchResults.map((result) => (
-          <SearchResultItem
-            key={result.id}
-            onClick={() => handleResultClick(result)} // 클릭 시 선택된 강의명을 입력 필드에 설정
-          >
-            {result.name}
-            <br />
-            <div style={{ fontSize: '20px', color: '#888' }}>
-              {result.platform} | {result.instructor}
-            </div>
-          </SearchResultItem>
-        ))}
-      </SearchResultContainer>
-    )}
-  </StyledInputContainer>
-</Section>
+      <Input
+  label="강의명"
+  iconSrc="/src/assets/Vector.svg"
+  placeholder="강의명을 검색해주세요."
+  value={searchTerm}
+  onChange={handleSearchChange}
+  searchResults={searchResults}
+  onResultClick={handleResultClick}
+/>
 
+<Input
+  label="강사명"
+  iconSrc="/src/assets/Vector.svg"
+  placeholder="강사명을 입력해주세요."
+  value={instructorName}
+  onChange={handleInstructorNameChange}
+  characterLimit={10}
+/>
 
-      <Section>
-  <Label>
-    <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 강사명
-  </Label>
-  <StyledInputContainer>
-    <StyledInput
-      placeholder="강사명을 입력해주세요."
-      value={instructorName}
-      onChange={handleInstructorNameChange}
-    />
-    <PlaceholderText>{`${instructorName.length}/10`}</PlaceholderText>
-  </StyledInputContainer>
-  {instructorNameError && (
-          <ErrorMessage>{instructorNameError}</ErrorMessage>
-        )}
-</Section>
+<Platform
+  tagInput={tagInput}
+  onTagInputChange={(e) => setTagInput(e.target.value)}
+  onTagKeyDown={handleTagKeyDown}
+  tags={tags}
+  onTagRemove={handleTagRemove}
+/>
 
+<ImageUpload
+  uploadedImage={uploadedImage}
+  onImageUpload={handleImageUpload}
+/>
 
-      <Section>
-        <Label>
-          <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 플랫폼
-        </Label>
-        <StyledInputContainer>
-          <StyledInput
-            placeholder="플랫폼을 입력해주세요."
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-            onKeyDown={handleTagKeyDown}
-          />
-          <img src="/src/assets/search.svg" alt="검색" style={{ position: 'absolute', right: 16 }} />
-        </StyledInputContainer>
-        <TagList>
-          {tags.map((tag, index) => (
-            <Tag key={index}>
-            {tag}
-            <TagDeleteButton onClick={() => handleTagRemove(index)}>✕</TagDeleteButton>
-          </Tag>
-          
-          ))}
-        </TagList>
-      </Section>
+<StarRating
+  selectedStars={selectedStars}
+  rating={rating}
+  onStarClick={handleStarClick}
+/>
 
-      <Section>
-        <Label>강의 사진 등록</Label>
-        <AddImageButton>
-          <input
-            type="file"
-            accept="image/*"
-            style={{ display: 'none' }}
-            onChange={handleImageUpload}
-          />
-          +
-        </AddImageButton>
-        {uploadedImage && <img src={uploadedImage} alt="Uploaded" width="100px" />}
-      </Section>
+<ReviewInput
+  review={review}
+  onReviewChange={handleReviewChange}
+  reviewError={reviewError}
+/>
 
-      <Section>
-        <Label>
-          <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 별점
-        </Label>
-        <StarRating>
-        {selectedStars.map((isSelected, index) => (
-            <Star
-              key={index}
-              selected={index < rating}
-              onClick={() => handleStarClick(index)}
-            >
-              <img
-                src={
-                  isSelected
-                    ? '/src/assets/star_select.svg' // 선택된 별
-                    : '/src/assets/star.svg' // 선택되지 않은 별
-                }
-                alt="별"
-              />
-            </Star>
-          ))}
-          <Count>{selectedStars.filter(Boolean).length}/5</Count>
-        </StarRating>
-      </Section>
-
-      <Section>
-        <Label>
-          <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 강의평
-        </Label>
-        <StyledTextareaContainer>
-      <StyledTextarea
-        placeholder="강의에 대한 후기를 작성해주세요. 욕설, 비하적인 말은 지양해주세요."
-        maxLength={300}
-        value={review}
-        onChange={handleReviewChange}
-        
-      />
-      <CharacterCount>
-        {review.length}/300
-      </CharacterCount>
-    </StyledTextareaContainer>
-    {reviewError && <ErrorMessage>{reviewError}</ErrorMessage>}
-      </Section>
-
-      <Section>
-        <Label>
-          <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 강의를 다 듣는데 얼마나 걸렸나요?
-        </Label>
-        <RadioGroup>
-        {radioOptions.map((option, index) => (
-          <RadioOption key={index} onClick={() => handleRadioClick(option)}>
-            <img
-              src={
-                selectedOption === option
-                  ? '/src/assets/radio_select.svg' // 선택된 상태
-                  : '/src/assets/radio.svg' // 선택되지 않은 상태
-              }
-              alt="라디오 버튼"
-            />
-            <span>{option}</span>
-          </RadioOption>
-        ))}
-      </RadioGroup>
-      </Section>
+<CompletionTimeInput
+  selectedOption={selectedOption}
+  onOptionClick={handleRadioClick}
+  radioOptions={radioOptions}
+/>
 
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
 
