@@ -3,24 +3,27 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
-  padding: 50px 20px;
+  padding: 40px 260px;
 `;
 
 const Title = styled.h2`
-  font-size: 36px;
-  color: #000;
+  color: ${({ theme }) => theme.colors.black};
   text-align: center;
-  font-weight: 700;
   margin-bottom: 20px;
+    font-size: 48px;
+    font-style: normal;
+font-weight: 700;
+line-height: 124.9%; /* 59.952px */
+font-family: 'Elice DX Neolli', sans-serif;
 `;
 
 const RequiredNote = styled.p`
   font-size: 14px;
   color: #ff6f00;
   margin-bottom: 40px;
-  text-align: center;
+  text-align: right;
 `;
 
 const Section = styled.div`
