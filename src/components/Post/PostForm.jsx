@@ -63,11 +63,11 @@ const StyledInput = styled.input`
   font-size: 20px;
     height:45px;
   padding: 15px 16px;
-  font-family: 'Elice DX Neolli';
+  font-family: 'Pretendard Variable';
   font-weight: 300;
   border: 1px solid ${({ theme }) => theme.colors.main};
   background: #fff;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray};
@@ -77,6 +77,12 @@ font-family: 'Pretendard Variable';
   font-weight: 300;
 line-height: 124.9%; /* 24.98px */
 letter-spacing: 0.4px;
+  }
+
+  &:focus {
+    outline: none; /* 기본 outline 제거 */
+    border-color: ${({ theme }) => theme.colors.main}; /* 테두리 색상 유지 */
+    box-shadow:0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 `;
 
@@ -221,6 +227,12 @@ const StyledTextarea = styled.textarea`
   &::placeholder {
     color: #888;
   }
+
+  &:focus {
+    outline: none; /* 기본 outline 제거 */
+    border-color: ${({ theme }) => theme.colors.main}; /* 테두리 색상 유지 */
+    box-shadow: none; /* 추가적인 효과 제거 */
+  }
 `;
 
 
@@ -276,24 +288,34 @@ margin-left:23px;
 const SubmitButton = styled.button`
   display: block;
   width: 100%;
-  padding: 15px;
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  background-color: ${(props) => (props.disabled ? '#ddd' : '#ff6f00')};
-  border: none;
-  border-radius: 5px;
+  height: 76px;
+  padding: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 10px;
+
+  background-color: ${(props) =>
+    props.disabled ? '#cc4e00' : props.theme.colors.main}; 
+  color: ${(props) => (props.disabled ? '#fff' : '#FFF')};
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 
-  &:hover {
-    background-color: ${(props) => (props.disabled ? '#ddd' : '#e65e00')};
-  }
+  font-family: "Pretendard Variable";
+  font-size: 31px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 124.9%; /* 38.719px */
 `;
+
+
 
 const ErrorMessage = styled.p`
   color: red;
-  font-size: 14px;
+  font-size: 15px;
   margin-top: 10px;
+font-family: "Pretendard Variable";
+
 `;
 
 const PostForm = () => {
@@ -308,6 +330,10 @@ const PostForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedStars, setSelectedStars] = useState([false, false, false, false, false]);
   const [selectedOption, setSelectedOption] = useState(null);
+    // 개별 오류 메시지 상태
+    const [lectureNameError, setLectureNameError] = useState('');
+    const [instructorNameError, setInstructorNameError] = useState('');
+    const [reviewError, setReviewError] = useState('');
 
   const handleTagKeyDown = (e) => {
     if (e.key === 'Enter' && tagInput.trim() !== '') {
@@ -326,31 +352,86 @@ const PostForm = () => {
     }
   };
 
+  const handleLectureNameChange = (e) => {
+    const value = e.target.value;
+    setLectureName(value);
+    if (value.trim() === '') {
+      setLectureNameError('강의명이 입력되지 않았습니다.');
+    } else {
+      setLectureNameError('');
+    }
+  };
+  // 실시간 강사명 유효성 검사
+  const handleInstructorNameChange = (e) => {
+    const value = e.target.value;
+    setInstructorName(value);
+    if (value.length > 10) {
+      setInstructorNameError('10자 이내로 입력해주세요.');
+    } else {
+      setInstructorNameError('');
+    }
+  };
+
+   // 강의평 유효성 검사
+   const handleReviewChange = (e) => {
+    const value = e.target.value;
+    if (value.length <= 300) {
+        setReview(value); 
+      }
+    if (value.trim() === '') {
+      setReviewError('강의평이 입력되지 않았습니다.');
+    } else {
+      setReviewError('');
+    }
+  };
 
   const handleStarClick = (index) => {
     setSelectedStars((prevStars) =>
-      prevStars.map((selected, i) => (i === index ? !selected : selected)) // 해당 별의 상태만 토글
+      prevStars.map((selected, i) => (i <= index ? true : false)) // 선택된 별 갯수 반영
     );
+    setRating(index + 1); 
   };
 
   const handleTagRemove = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
   };
   
-  const handleReviewChange = (e) => {
-    if (e.target.value.length <= 300) {
-      setReview(e.target.value); // 300자 이상 입력되지 않도록 설정
-    }
-  };
 
-  const handleRadioClick = (option) => {
-    // 선택된 값이 이미 눌렸다면 취소(= null) 처리
-    setSelectedOption((prev) => (prev === option ? null : option));
-  };
+ const handleRadioClick = (option) => {
+  setSelectedOption((prev) => (prev === option ? null : option)); // 라디오 선택 상태 관리
+  setCompletionTime(option === selectedOption ? '' : option); // completionTime 값 설정
+};
+
 
   const radioOptions = ['일주일 이내', '3달 이내', '6달 이내', '1년 이내', '아직 수강중임'];
 
   const handleSubmit = () => {
+    if (!lectureName) setLectureNameError('강의명이 입력되지 않았습니다.');
+    if (instructorName.length > 10)
+      setInstructorNameError('10자 이내로 입력해주세요.');
+    if (!review.trim()) setReviewError('강의평이 입력되지 않았습니다.');
+
+    if (
+      lectureName &&
+      instructorName.length <= 10 &&
+      review.trim() &&
+      rating > 0 &&
+      completionTime
+    ) {
+      const data = {
+        lectureName,
+        instructorName,
+        tags,
+        rating,
+        review,
+        uploadedImage,
+        completionTime,
+      };
+
+      console.log('Form Submitted:', data);
+      alert('리뷰가 성공적으로 제출되었습니다!');
+      setErrorMessage('');
+    }
     if (!lectureName || !instructorName || rating === 0 || !review || !completionTime) {
       setErrorMessage('* 필수 항목을 모두 입력해주세요.');
       return;
@@ -386,10 +467,11 @@ const PostForm = () => {
           <StyledInput
             placeholder="강의명을 입력해주세요."
             value={lectureName}
-            onChange={(e) => setLectureName(e.target.value)}
+            onChange={handleLectureNameChange}
           />
           {!lectureName && <PlaceholderText>직접 입력하기</PlaceholderText>}
         </StyledInputContainer>
+        {lectureNameError && <ErrorMessage>{lectureNameError}</ErrorMessage>}
       </Section>
 
       <Section>
@@ -400,14 +482,13 @@ const PostForm = () => {
     <StyledInput
       placeholder="강사명을 입력해주세요."
       value={instructorName}
-      onChange={(e) => {
-        if (e.target.value.length <= 10) {
-          setInstructorName(e.target.value);
-        }
-      }}
+      onChange={handleInstructorNameChange}
     />
     <PlaceholderText>{`${instructorName.length}/10`}</PlaceholderText>
   </StyledInputContainer>
+  {instructorNameError && (
+          <ErrorMessage>{instructorNameError}</ErrorMessage>
+        )}
 </Section>
 
 
@@ -484,11 +565,13 @@ const PostForm = () => {
         maxLength={300}
         value={review}
         onChange={handleReviewChange}
+        
       />
       <CharacterCount>
         {review.length}/300
       </CharacterCount>
     </StyledTextareaContainer>
+    {reviewError && <ErrorMessage>{reviewError}</ErrorMessage>}
       </Section>
 
       <Section>
@@ -515,11 +598,18 @@ const PostForm = () => {
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
 
       <SubmitButton
-        onClick={handleSubmit}
-        disabled={!lectureName || !instructorName || rating === 0 || !review || !completionTime}
-      >
-        리뷰 등록하기
-      </SubmitButton>
+  onClick={handleSubmit}
+  disabled={
+    !lectureName || 
+    !instructorName || 
+    rating === 0 || 
+    !review.trim() || 
+    !completionTime
+  }
+>
+  리뷰 등록하기
+</SubmitButton>
+
     </Container>
   );
 };
