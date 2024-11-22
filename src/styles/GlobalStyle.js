@@ -160,7 +160,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Elice DX Neolli', sans-serif;
     margin: 0;
     padding: 0;
-    line-height: 1.5;
   }
 `;
 
