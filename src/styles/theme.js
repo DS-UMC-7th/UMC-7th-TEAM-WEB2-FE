@@ -8,3 +8,5 @@ const colors = {
 export const theme = {
   colors,
 };
+
+export default theme;

@@ -1,6 +1,6 @@
-import { css } from '@emotion/react';
+import { createGlobalStyle } from 'styled-components';
 
-const GlobalStyle = css`
+const GlobalStyle = createGlobalStyle`
   html,
   body,
   div,
@@ -88,6 +88,7 @@ const GlobalStyle = css`
     font-size: 62.5%;
     vertical-align: baseline;
   }
+  
   /* HTML5 display-role reset for older browsers */
   article,
   aside,
@@ -102,17 +103,21 @@ const GlobalStyle = css`
   section {
     display: block;
   }
+  
   body {
     line-height: 1;
   }
+  
   ol,
   ul {
     list-style: none;
   }
+  
   blockquote,
   q {
     quotes: none;
   }
+  
   blockquote:before,
   blockquote:after,
   q:before,
@@ -120,6 +125,7 @@ const GlobalStyle = css`
     content: '';
     content: none;
   }
+  
   table {
     border-collapse: collapse;
     border-spacing: 0;
