@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Section = styled.div`
   margin-bottom: 106px;
@@ -10,7 +10,7 @@ const Label = styled.label`
   color: ${({ theme }) => theme.colors.black};
   display: block;
   margin-bottom: 13px;
-  font-family: 'Elice DX Neolli';
+  font-family: "Elice DX Neolli";
   font-size: 32px;
   font-style: normal;
   font-weight: 500;
@@ -46,7 +46,7 @@ const RadioOption = styled.div`
 
   span {
     color: #000;
-    font-family: 'Pretendard Variable';
+    font-family: "Pretendard Variable";
     font-size: 22px;
     font-style: normal;
     font-weight: 500;
@@ -67,8 +67,8 @@ const CompletionTimeInput = ({ selectedOption, onOptionClick, radioOptions }) =>
             <img
               src={
                 selectedOption === option
-                  ? '/src/assets/radio_select.svg' // 선택된 상태
-                  : '/src/assets/radio.svg' // 선택되지 않은 상태
+                  ? "/src/assets/radio_select.svg" // 선택된 상태
+                  : "/src/assets/radio.svg" // 선택되지 않은 상태
               }
               alt="라디오 버튼"
             />
