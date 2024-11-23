@@ -5,7 +5,7 @@ import logo_footer from "../../assets/img/logo_footer.png";
 const FooterDiv = styled.footer`
   margin-top: auto;
   background-color: #f1f1f1;
-  height: 180px;
+  height: 170px;
   margin-bottom: 20px;
   padding-left: 50px;
   padding-top: 25px;
@@ -22,15 +22,26 @@ const FooterLink = styled.div`
 const FooterP = styled.p`
   color: ${({ theme }) => theme.colors.gray};
   font-family: "Pretendard Variable";
-  font-size: 13px;
+  font-size: 12px;
+`;
+
+const ImgDiv = styled.div`
+  width: 80px;
+  height: 40px;
+`;
+
+const Img = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const Footer = () => {
   return (
     <FooterDiv>
-      <div>
-        <img src={logo_footer}></img>
-      </div>
+      <ImgDiv>
+        <Img src={logo_footer}></Img>
+      </ImgDiv>
       <FooterLink>
         <FooterP>개인정보처리방침</FooterP>
         <FooterP>이용약관</FooterP>
