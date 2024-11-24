@@ -1,7 +1,6 @@
 import logo from "../../assets/img/logo.png";
 import { ImgDiv, Img } from "../Footer/Footer.style";
 import * as S from "./Navbar.style";
-import { Link } from "react-router-dom";
 import React from "react";
 
 const Navbar = () => {

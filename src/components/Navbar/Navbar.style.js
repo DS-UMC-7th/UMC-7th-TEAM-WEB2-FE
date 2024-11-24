@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FooterLink, FooterP, ImgDiv } from "../Footer/Footer.style";
-import { Link } from "react-router-dom";
+import { NavLink as RouterNavLink } from "react-router-dom";
 import search from "../../assets/img/search.png";
 
 const NavContainer = styled.div`
@@ -67,12 +67,16 @@ const SearchButton = styled.button`
   margin: auto 0;
 `;
 
-const NavLink = styled(Link)`
+const NavLink = styled(RouterNavLink)`
   text-decoration: none;
   font-family: "Elice DX Neolli";
   font-weight: 700;
   font-size: 16px;
   color: ${({ theme }) => theme.colors.gray};
+
+  &.active {
+    color: ${({ theme }) => theme.colors.main};
+  }
 `;
 
 export { NavDiv, NavContainer, LogoImgDiv, NavMenu, SearchInput, SearchDiv, SearchButton, NavLink };
