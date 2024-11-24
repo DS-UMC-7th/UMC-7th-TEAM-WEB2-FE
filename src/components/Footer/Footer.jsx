@@ -1,54 +1,19 @@
-import styled from "styled-components";
-
 import logo_footer from "../../assets/img/logo_footer.png";
-
-const FooterDiv = styled.footer`
-  margin-top: auto;
-  background-color: #f1f1f1;
-  height: 170px;
-  margin-bottom: 20px;
-  padding-left: 50px;
-  padding-top: 25px;
-`;
-
-const FooterLink = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 25%;
-  margin-top: 25px;
-`;
-
-const FooterP = styled.p`
-  color: ${({ theme }) => theme.colors.gray};
-  font-family: "Pretendard Variable";
-  font-size: 12px;
-`;
-
-const ImgDiv = styled.div`
-  width: 80px;
-  height: 40px;
-`;
-
-const Img = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
+import * as S from "./Footer.style";
 
 const Footer = () => {
   return (
-    <FooterDiv>
-      <ImgDiv>
-        <Img src={logo_footer}></Img>
-      </ImgDiv>
-      <FooterLink>
-        <FooterP>개인정보처리방침</FooterP>
-        <FooterP>이용약관</FooterP>
-        <FooterP>이메일무단수집거부</FooterP>
-        <FooterP>사이트맵</FooterP>
-      </FooterLink>
-    </FooterDiv>
+    <S.FooterDiv>
+      <S.ImgDiv>
+        <S.Img src={logo_footer}></S.Img>
+      </S.ImgDiv>
+      <S.FooterLink>
+        <S.FooterP>개인정보처리방침</S.FooterP>
+        <S.FooterP>이용약관</S.FooterP>
+        <S.FooterP>이메일무단수집거부</S.FooterP>
+        <S.FooterP>사이트맵</S.FooterP>
+      </S.FooterLink>
+    </S.FooterDiv>
   );
 };
 
