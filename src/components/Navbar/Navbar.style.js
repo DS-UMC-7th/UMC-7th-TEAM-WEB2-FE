@@ -56,7 +56,6 @@ const SearchButton = styled.button`
   background: url(${search});
   background-repeat: no-repeat;
   background-position: center;
-
   border: none;
 
   position: absolute;
