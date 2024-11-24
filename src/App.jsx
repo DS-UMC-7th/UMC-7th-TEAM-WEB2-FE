@@ -8,23 +8,21 @@ import { ThemeProvider } from "styled-components";
 import theme from "./styles/theme.js";
 import Footer from "./components/Footer/Footer.jsx";
 import "./App.css";
+import RootLayout from "./components/layout/RootLayout.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Homepage />,
-  },
-  {
-    path: "/list",
-    element: <ListPage />,
-  },
-  {
-    path: "/post",
-    element: <PostPage />,
-  },
-  {
-    path: "/detail",
-    element: <DetailPage />,
+    element: <RootLayout />,
+    children: [
+      {
+        index: true,
+        element: <Homepage />,
+      },
+      { path: "list", element: <ListPage /> },
+      { path: "post", element: <PostPage /> },
+      { path: "detail", element: <DetailPage /> },
+    ],
   },
 ]);
 
@@ -34,7 +32,6 @@ function App() {
       <GlobalStyle />
       <div className="App">
         <RouterProvider router={router} />
-        <Footer />
       </div>
     </ThemeProvider>
   );
