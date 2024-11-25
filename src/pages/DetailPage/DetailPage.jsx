@@ -7,7 +7,7 @@ const DetailPage = () => {
   return (
     <>
       <DetailHeader />
-      <div style={{ paddingLeft: "5vw", marginTop: "4vw" }}>
+      <div style={{ paddingLeft: "5vw", marginTop: "4vw", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <Gallery />
         <DetailReview />
       </div>
