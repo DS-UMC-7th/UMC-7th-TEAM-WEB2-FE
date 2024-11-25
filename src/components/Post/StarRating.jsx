@@ -11,7 +11,7 @@ const Label = styled.label`
   display: block;
   margin-bottom: 13px;
   font-family: 'Elice DX Neolli';
-  font-size: 32px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
@@ -24,15 +24,16 @@ const Icon = styled.img`
 `;
 
 const StarRatingContainer = styled.div`
-  gap: 5px;
+  gap: 0.5rem;
   display: flex;
-  align-items: flex-end;
-  align-self: stretch;
+  align-items: center;
+  margin: 0 auto; /* 가운데 정렬 */
 `;
 
+
 const Star = styled.span`
-  width: 46px;
-  height: 48px;
+  width: 35px;
+  height: 36px;
   cursor: pointer;
 
   img {
@@ -44,11 +45,11 @@ const Star = styled.span`
 const Count = styled.span`
   color: ${({ theme }) => theme.colors.black};
   font-family: 'Elice DX Neolli';
-  font-size: 32px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
-  margin-left: 36px;
+  margin-left: 32px;
 `;
 
 const StarRating = ({ selectedStars, rating, onStarClick }) => {

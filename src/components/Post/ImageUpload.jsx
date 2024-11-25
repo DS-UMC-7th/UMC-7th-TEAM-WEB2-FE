@@ -9,9 +9,9 @@ const Section = styled.div`
 const Label = styled.label`
   color: ${({ theme }) => theme.colors.black};
   display: block;
-  margin-bottom: 13px;
+  margin-bottom: 11px;
   font-family: 'Elice DX Neolli';
-  font-size: 32px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
@@ -25,16 +25,16 @@ const AddImageButton = styled.button`
   margin-top: 25px;
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px dashed ${({ theme }) => theme.colors.main};
-  width: 160px;
-  height: 160px;
+  width: 130px;
+  height: 130px;
   padding: 10px;
-  gap: 10px;
+  gap: 5px;
   flex-shrink: 0;
   position: relative;
 
   color: ${({ theme }) => theme.colors.black};
   font-family: 'Elice DX Neolli';
-  font-size: 64px;
+  font-size: 50px;
   font-style: normal;
   font-weight: 300;
   line-height: 124.9%;
@@ -43,6 +43,7 @@ const AddImageButton = styled.button`
     border: 1px solid ${({ theme }) => theme.colors.main};
   }
 `;
+
 
 const HiddenInput = styled.input`
   display: none;
@@ -55,7 +56,7 @@ const UploadedImage = styled.img`
   top: 0;
   left: 0;
   object-fit: cover; /* 이미지를 버튼 크기에 맞게 조정 */
-  border-radius: 4px; /* 버튼과 일치하는 모서리 둥글기 */
+
 `;
 
 

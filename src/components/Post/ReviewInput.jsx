@@ -11,7 +11,7 @@ const Label = styled.label`
   display: block;
   margin-bottom: 13px;
   font-family: 'Elice DX Neolli';
-  font-size: 32px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
@@ -28,10 +28,11 @@ const StyledTextareaContainer = styled.div`
   margin-top: 20px;
 `;
 
+
 const StyledTextarea = styled.textarea`
   width: 100%;
-  height: 316px;
-  padding: 28px 20px;
+  height: 250px;
+  padding: 20px 18px;
   border: none;
   border-radius: 10px;
   background: #fff6eb;
@@ -43,10 +44,10 @@ const StyledTextarea = styled.textarea`
   white-space: pre-wrap;
   color: #232323;
   font-family: 'Pretendard Variable';
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 157%; /* 28.26px */
+  line-height: 157%; 
   letter-spacing: 0.36px;
 
   &::placeholder {
@@ -54,22 +55,24 @@ const StyledTextarea = styled.textarea`
   }
 
   &:focus {
-    outline: none; /* 기본 outline 제거 */
-    border-color: ${({ theme }) => theme.colors.main}; /* 테두리 색상 유지 */
-    box-shadow: none; /* 추가적인 효과 제거 */
+    outline: none; 
+    border-color: ${({ theme }) => theme.colors.main}; 
+    box-shadow: none; 
   }
 `;
+
+
 
 const CharacterCount = styled.span`
   position: absolute;
   bottom: 10px;
-  left: 28px;
+  left: 25px;
   font-family: 'Pretendard Variable';
   color: #888;
   text-align: justify;
   leading-trim: both;
   text-edge: cap;
-  font-size: 18px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 157%; /* 28.26px */
@@ -78,7 +81,7 @@ const CharacterCount = styled.span`
 
 const ErrorMessage = styled.p`
   color: red;
-  font-size: 15px;
+  font-size: 13px;
   margin-top: 10px;
   font-family: 'Pretendard Variable';
 `;
