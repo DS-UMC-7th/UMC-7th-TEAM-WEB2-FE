@@ -11,7 +11,7 @@ const Label = styled.label`
   display: block;
   margin-bottom: 13px;
   font-family: 'Elice DX Neolli';
-  font-size: 32px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
@@ -29,39 +29,30 @@ const StyledInputContainer = styled.div`
   align-items: center;
 `;
 
+
 const StyledInput = styled.input`
   width: 100%;
-  font-size: 20px;
-  height: 45px;
-  padding: 15px 16px;
-  font-family: 'Pretendard Variable';
-  font-weight: 300;
+  height: 3.5rem;
+  padding: 0.75rem 1rem;
   border: 1px solid ${({ theme }) => theme.colors.main};
   background: #fff;
-  box-shadow: none;
 
   &::placeholder {
     color: ${({ theme }) => theme.colors.gray};
-    font-size: 20px;
-    font-style: normal;
-    font-family: 'Pretendard Variable';
-    font-weight: 300;
-    line-height: 124.9%;
-    letter-spacing: 0.4px;
   }
 
   &:focus {
-    outline: none;
     border-color: ${({ theme }) => theme.colors.main};
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 시각적 강조 */
   }
 `;
+
 
 const TagList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 11px;
-  margin-top: 34px;
+  margin-top: 24px;
 `;
 
 const Tag = styled.span`
@@ -70,12 +61,12 @@ const Tag = styled.span`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 10px 20px;
+  padding: 5px 10px;
   background-color: ${({ theme }) => theme.colors.white};
   color: ${({ theme }) => theme.colors.main};
 
   font-family: 'Elice DX Neolli';
-  font-size: 20px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
@@ -90,7 +81,7 @@ const TagDeleteButton = styled.button`
   cursor: pointer;
 
   font-family: 'Elice DX Neolli';
-  font-size: 20px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;

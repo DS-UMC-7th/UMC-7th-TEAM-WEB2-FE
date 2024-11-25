@@ -11,7 +11,7 @@ const Label = styled.label`
   display: block;
   margin-bottom: 13px;
   font-family: "Elice DX Neolli";
-  font-size: 32px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
@@ -24,34 +24,37 @@ const Icon = styled.img`
 `;
 
 const RadioGroup = styled.div`
-  margin-top: 15px;
+  margin-top: 1rem;
   display: flex;
-  width: 250px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 0.5rem;
+  width: 80%; 
+
 `;
+
 
 const RadioOption = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
+  margin-top:10px;
   cursor: pointer;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 
   img {
-    width: 24px;
-    height: 24px;
+    width: 18px;
+    height: 18px;
   }
 
   span {
     color: #000;
     font-family: "Pretendard Variable";
-    font-size: 22px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 500;
     line-height: 124.9%; /* 27.478px */
-    margin-left: 23px;
+    margin-left: 15px;
   }
 `;
 

@@ -11,7 +11,7 @@ const Label = styled.label`
   display: block;
   margin-bottom: 13px;
   font-family: 'Elice DX Neolli';
-  font-size: 32px;
+  font-size: 26px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
@@ -29,33 +29,22 @@ const StyledInputContainer = styled.div`
   align-items: center;
 `;
 
+
 const StyledInput = styled.input`
   width: 100%;
-  font-size: 20px;
-  height: 45px;
-  padding: 15px 16px;
-  font-family: 'Pretendard Variable';
-  font-weight: 300;
+  font-size: 14px; /* 반응형 글꼴 크기 */
+  height: 3.5rem;
+  padding: 0.75rem 1rem;
   border: 1px solid ${({ theme }) => theme.colors.main};
   background: #fff;
   box-shadow: none;
 
-  &::placeholder {
-    color: ${({ theme }) => theme.colors.gray};
-    font-size: 20px;
-    font-style: normal;
-    font-family: 'Pretendard Variable';
-    font-weight: 300;
-    line-height: 124.9%;
-    letter-spacing: 0.4px;
-  }
-
   &:focus {
-    outline: none;
     border-color: ${({ theme }) => theme.colors.main};
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); /* 시각적 강조 */
   }
 `;
+
 
 const SearchResultContainer = styled.div`
   margin-top: 15px;
@@ -63,7 +52,7 @@ const SearchResultContainer = styled.div`
   top: 50px;
   left: 0;
   width: 100%;
-  max-height: 450px;
+  max-height: 250px;
   overflow-y: auto;
   z-index: 100;
   border: 1px solid ${({ theme }) => theme.colors.main};
@@ -72,19 +61,18 @@ const SearchResultContainer = styled.div`
 `;
 
 const SearchResultItem = styled.div`
-  padding: 10px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.gray};
   cursor: pointer;
   display: flex;
-  padding: 21px 0px;
+  padding: 20px 10px;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 7px;
+  gap: 5px;
   align-self: stretch;
   color: #3f3f3f;
   font-family: 'Pretendard Variable';
-  font-size: 20px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 124.9%;
@@ -104,7 +92,7 @@ const PlaceholderText = styled.span`
   right: 16px;
   color: ${({ theme }) => theme.colors.main};
   font-family: 'Pretendard Variable';
-  font-size: 20px;
+  font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
@@ -153,7 +141,7 @@ const Input = ({
               >
                 {result.name}
                 <br />
-                <div style={{ fontSize: '20px', color: '#888' }}>
+                <div style={{ fontSize: '14px', color: '#888' }}>
                   {result.platform} | {result.instructor}
                 </div>
               </SearchResultItem>

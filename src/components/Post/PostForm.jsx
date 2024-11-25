@@ -7,18 +7,25 @@ import ReviewInput from './ReviewInput';
 import StarRating from './StarRating';
 import CompletionTimeInput from './CompletionTimeInput';
 
-const Container = styled.div`
+/*const Container = styled.div`
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
   padding: 40px 260px;
+`;*/
+
+const Container = styled.div`
+ display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+ padding: 7rem 30rem;
 `;
 
 const Title = styled.h2`
   color: ${({ theme }) => theme.colors.black};
   text-align: center;
-  margin-bottom: 20px;
-  font-size: 48px;
+  margin-bottom: 30px;
+  font-size: 42px;
   font-style: normal;
   font-weight: 700;
   line-height: 124.9%;
@@ -32,7 +39,7 @@ const RequiredNote = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   text-align: right;
 `;
 
@@ -44,11 +51,9 @@ const Icon = styled.img`
 `;
 
 
-
 const SubmitButton = styled.button`
   display: block;
-  width: 100%;
-  height: 76px;
+  height: 55px;
   padding: 10px;
   justify-content: center;
   align-items: center;
@@ -62,7 +67,7 @@ const SubmitButton = styled.button`
   cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
 
   font-family: "Pretendard Variable";
-  font-size: 31px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 800;
   line-height: 124.9%; /* 38.719px */
@@ -72,7 +77,7 @@ const SubmitButton = styled.button`
 
 const ErrorMessage = styled.p`
   color: red;
-  font-size: 15px;
+  font-size: 11px;
   margin-top: 10px;
 font-family: "Pretendard Variable";
 
