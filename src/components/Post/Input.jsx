@@ -30,6 +30,7 @@ const StyledInputContainer = styled.div`
 `;
 
 
+
 const StyledInput = styled.input`
   width: 100%;
   font-size: 14px; /* 반응형 글꼴 크기 */
@@ -92,14 +93,22 @@ const PlaceholderText = styled.span`
   right: 16px;
   color: ${({ theme }) => theme.colors.main};
   font-family: 'Pretendard Variable';
-  font-size: 12px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
 `;
 
 
-
+const ErrorMessage = styled.p`
+  position: absolute;
+  bottom: -20px; /* 입력 필드 바로 아래에 표시 */
+  left: 0;
+  color: red;
+  font-size: 12px;
+  margin: 0; /* 불필요한 여백 제거 */
+  font-family: 'Pretendard Variable';
+`;
 
 
 const Input = ({
@@ -116,6 +125,7 @@ const Input = ({
   tags = [],
   onTagRemove,
   characterLimit,
+  error,
 }) => {
   return (
     <Section>
@@ -124,31 +134,33 @@ const Input = ({
         {label}
       </Label>
       <StyledInputContainer>
-        <StyledInput
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-        />
-        {characterLimit && (
-          <PlaceholderText>{`${value.length}/${characterLimit}`}</PlaceholderText>
-        )}
-        {searchResults.length > 0 && (
-          <SearchResultContainer>
-            {searchResults.map((result) => (
-              <SearchResultItem
-                key={result.id}
-                onClick={() => onResultClick(result)}
-              >
-                {result.name}
-                <br />
-                <div style={{ fontSize: '14px', color: '#888' }}>
-                  {result.platform} | {result.instructor}
-                </div>
-              </SearchResultItem>
-            ))}
-          </SearchResultContainer>
-        )}
-      </StyledInputContainer>
+  <StyledInput
+    placeholder={placeholder}
+    value={value}
+    onChange={onChange}
+  />
+  {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러가 있을 때만 렌더링 */}
+  {characterLimit && (
+    <PlaceholderText>{`${value.length}/${characterLimit}`}</PlaceholderText>
+  )}
+  {searchResults.length > 0 && (
+    <SearchResultContainer>
+      {searchResults.map((result) => (
+        <SearchResultItem
+          key={result.id}
+          onClick={() => onResultClick(result)}
+        >
+          {result.name}
+          <br />
+          <div style={{ fontSize: '14px', color: '#888' }}>
+            {result.platform} | {result.instructor}
+          </div>
+        </SearchResultItem>
+      ))}
+    </SearchResultContainer>
+  )}
+</StyledInputContainer>
+
       
     </Section>
   );

@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import * as yup from 'yup';
 import Input from './Input';
 import Platform from './Platform';
 import ImageUpload from './ImageUpload';
 import ReviewInput from './ReviewInput';
 import StarRating from './StarRating';
 import CompletionTimeInput from './CompletionTimeInput';
-
-/*const Container = styled.div`
-  width: 100%;
-  max-width: 1440px;
-  margin: 0 auto;
-  padding: 40px 260px;
-`;*/
 
 const Container = styled.div`
  display: flex;
@@ -60,27 +54,19 @@ const SubmitButton = styled.button`
   gap: 10px;
   flex-shrink: 0;
   border-radius: 10px;
-
-  background-color: ${(props) =>
-    props.disabled ? '#cc4e00' : props.theme.colors.main}; 
-  color: ${(props) => (props.disabled ? '#fff' : '#FFF')};
-  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
-
+  color:${({ theme }) => theme.colors.white};
+ background-color:${({ theme }) => theme.colors.main};
   font-family: "Pretendard Variable";
   font-size: 20px;
   font-style: normal;
   font-weight: 800;
   line-height: 124.9%; /* 38.719px */
 `;
-
-
-
 const ErrorMessage = styled.p`
+  position: flex;
   color: red;
-  font-size: 11px;
-  margin-top: 10px;
-font-family: "Pretendard Variable";
-
+  font-size: 12px;
+ 
 `;
 
 
@@ -93,16 +79,65 @@ const PostForm = () => {
   const [review, setReview] = useState('');
   const [uploadedImage, setUploadedImage] = useState(null);
   const [completionTime, setCompletionTime] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
   const [selectedStars, setSelectedStars] = useState([false, false, false, false, false]);
   const [selectedOption, setSelectedOption] = useState(null);
-    // 개별 오류 메시지 상태
-    const [lectureNameError, setLectureNameError] = useState('');
-    const [instructorNameError, setInstructorNameError] = useState('');
-    const [reviewError, setReviewError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
-    const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState([]);
+ 
+  const [instructorNameError, setInstructorNameError] = useState('');
+  const [reviewError, setReviewError] = useState('');
+
+
+ // Yup validation schema
+ const schema = yup.object().shape({
+  lectureName: yup
+    .string()
+    .required('강의명을 입력해주세요.')
+    .min(3, '강의명은 최소 3자 이상이어야 합니다.')
+    .max(50, '강의명은 최대 50자 이내여야 합니다.'),
+  instructorName: yup
+    .string()
+    .required('강사명을 입력해주세요.')
+    .max(10, '강사명은 최대 10자 이내여야 합니다.'),
+  review: yup
+    .string()
+    .required('강의평이 입력되지 않았습니다.')
+    .min(10, '강의평은 최소 10자 이상이어야 합니다.')
+    .max(300, '강의평은 최대 300자 이내여야 합니다.'),
+});
+
+const validateField = async (field, value, setError) => {
+  try {
+    await schema.validateAt(field, { [field]: value });
+    setError(''); // 유효하면 에러 메시지 초기화
+  } catch (error) {
+    setError(error.message); // 유효하지 않으면 에러 메시지 설정
+  }
+};
+
+
+const handleLectureNameChange = (e) => {
+  const value = e.target.value;
+  setLectureName(value);
+  validateField('lectureName', value, setLectureNameError); // 실시간 유효성 검사
+};
+
+const handleInstructorNameChange = (e) => {
+  const value = e.target.value;
+  setInstructorName(value);
+  validateField('instructorName', value, setInstructorNameError); // 실시간 유효성 검사
+};
+
+const handleReviewChange = (e) => {
+  const value = e.target.value;
+  setReview(value);
+  validateField('review', value, setReviewError); // 실시간 유효성 검사
+};
+
+
+
   
   const lectureData = [
     { id: 1, name: '초보자를 위한 화초 기르기', platform: '플로스', instructor: '갸또디솔레 대표 서지현' },
@@ -152,31 +187,6 @@ const PostForm = () => {
   };
 
 
-  // 실시간 강사명 유효성 검사
-  const handleInstructorNameChange = (e) => {
-    const value = e.target.value;
-    setInstructorName(value);
-    if (value.length > 10) {
-      setInstructorNameError('10자 이내로 입력해주세요.');
-    }  if (value.trim() === '') {
-        setLectureNameError('강의명이 입력되지 않았습니다.');
-      } else {
-      setInstructorNameError('');
-    }
-  };
-
-   // 강의평 유효성 검사
-   const handleReviewChange = (e) => {
-    const value = e.target.value;
-    if (value.length <= 300) {
-        setReview(value); 
-      }
-    if (value.trim() === '') {
-      setReviewError('강의평이 입력되지 않았습니다.');
-    } else {
-      setReviewError('');
-    }
-  };
 
   const handleStarClick = (index) => {
     setSelectedStars((prevStars) =>
@@ -210,10 +220,20 @@ const PostForm = () => {
   const radioOptions = ['일주일 이내', '3달 이내', '6달 이내', '1년 이내', '아직 수강중임'];
 
   const handleSubmit = () => {
-    if (!lectureName) setLectureNameError('강의명이 입력되지 않았습니다.');
-    if (instructorName.length > 10)
-      setInstructorNameError('10자 이내로 입력해주세요.');
-    if (!review.trim()) setReviewError('강의평이 입력되지 않았습니다.');
+    schema
+      .validate({ lectureName, instructorName, review }, { abortEarly: false })
+      .then(() => {
+        console.log('Form Submitted:', { lectureName, instructorName, review });
+        alert('리뷰가 성공적으로 제출되었습니다!');
+      })
+      .catch((errors) => {
+        // 각 필드에 대해 에러 메시지 설정
+        errors.inner.forEach((error) => {
+          if (error.path === 'lectureName') setLectureNameError(error.message);
+          if (error.path === 'instructorName') setInstructorNameError(error.message);
+          if (error.path === 'review') setReviewError(error.message);
+        });
+      });
 
     if (
       lectureName &&
@@ -233,7 +253,6 @@ const PostForm = () => {
       };
 
       console.log('Form Submitted:', data);
-      alert('리뷰가 성공적으로 제출되었습니다!');
       setErrorMessage('');
     }
     if (!lectureName || !instructorName || rating === 0 || !review || !completionTime) {
@@ -255,6 +274,7 @@ const PostForm = () => {
     alert('리뷰가 성공적으로 제출되었습니다!');
     setErrorMessage('');
   };
+
 
   return (
     <Container>
@@ -280,7 +300,9 @@ const PostForm = () => {
   value={instructorName}
   onChange={handleInstructorNameChange}
   characterLimit={10}
+  error={instructorNameError}
 />
+
 
 <Platform
   tagInput={tagInput}
@@ -306,6 +328,7 @@ const PostForm = () => {
   onReviewChange={handleReviewChange}
   reviewError={reviewError}
 />
+
 
 <CompletionTimeInput
   selectedOption={selectedOption}

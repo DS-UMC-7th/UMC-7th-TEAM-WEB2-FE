@@ -81,7 +81,7 @@ const CharacterCount = styled.span`
 
 const ErrorMessage = styled.p`
   color: red;
-  font-size: 11px;
+  font-size: 13px;
   margin-top: 10px;
   font-family: 'Pretendard Variable';
 `;
