@@ -1,12 +1,10 @@
 import styled from "styled-components";
 
-// 카드 컨테이너 스타일
 export const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.2rem;
   padding: 2rem 2rem 1.2rem 2rem;
   border-radius: 10px;
   border: 1px solid #D9D9D9;
@@ -14,42 +12,59 @@ export const CardContainer = styled.div`
   width: 27.5rem;
   max-width: 100%;
   height: 41.5rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(229, 95, 0, 0.3); 
+  box-sizing: border-box;
 `;
 
-// 이미지 스타일
 export const Image = styled.img`
-  width: 100%;
+  width: 23.5rem;
   height: auto;
   border-radius: 8px;
   object-fit: cover;
+  margin-bottom: 1.2rem;
 `;
 
-// 제목 스타일
-export const Title = styled.h2`
-  font-size: 2.4rem;
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-`;
-
-export const Rating = styled.div`
-  display: flex;
-  font-size: 2rem;
-  color: #555;
+export const Score = styled.div`
+  display: flex; 
+  justify-content: flex-start; 
+  align-items: center;
   text-align: left;
+  width: 23.5rem;
 `;
 
-// 내용 스타일
+export const Title = styled.div`
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  color: #000;
+  font-family: "Elice DX Neolli";
+  font-size: 2.4rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 124.9%; 
+  letter-spacing: 0.48px;
+  margin: 0.7rem 0;
+  line-height: 124.9%;
+  width: 23.5rem;
+
+`;
+
 export const Content = styled.p`
-  font-size: 2rem;
-  color: #666;
-  text-align: center;
-  line-height: 1.5;
-  margin-top: 0;
-  margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-height: 10rem; 
+  color: #000;
+  font-family: "Pretendard Variable";
+  font-size: 2rem;
+  font-style: normal;
+  font-weight: 300;
+  line-height: normal;
+  margin: 0.5rem 0;
+  box-sizing: border-box;
+  width: 23.5rem;
+
 `;

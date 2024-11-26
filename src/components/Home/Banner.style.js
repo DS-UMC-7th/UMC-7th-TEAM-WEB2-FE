@@ -26,39 +26,6 @@ export const Image = styled.img`
   object-fit: cover;
 `;
 
-export const TextOverlay = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 5%;
-  transform: translateY(-50%);
-  text-align: left;
-  color: black;
-  font-weight: bold;
-  width: 73.3rem;
-  padding-left: 148px;
-  z-index: 2;
-`;
-
-export const Title = styled.div`
-  font-size: 5rem;
-  margin-bottom: 15px;
-  font-weight: 700;
-`;
-
-export const Rating = styled.div`
-  font-size: 2rem;
-  margin-bottom: 15px;
-`;
-
-export const Content = styled.p`
-  font-size: 2rem;
-  margin: 10px 0;
-  line-height: 1;
-  max-height: 6em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
-
 export const Indicator = styled.div`
   position: absolute;
   bottom: 20px;
