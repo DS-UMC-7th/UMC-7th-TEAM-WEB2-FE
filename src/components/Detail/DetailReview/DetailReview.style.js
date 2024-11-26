@@ -11,7 +11,8 @@ const ReviewContainer = styled.div`
   justify-content: space-around;
   align-items: center;
 
-  width: 80%;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const Section = styled.div`
@@ -35,23 +36,6 @@ const Icon = styled.img`
   width: 9px;
   height: 10.145px;
   margin-right: 13px;
-`;
-
-const StarRatingContainer = styled.div`
-  gap: 5px;
-  display: flex;
-  align-items: flex-end;
-  align-self: stretch;
-`;
-
-const Star = styled.span`
-  width: 3.1vw;
-  height: 3.3vw;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
 `;
 
 const Count = styled.span`
@@ -81,4 +65,4 @@ const ReviewButton = styled.button`
   }
 `;
 
-export { ReviewContainer, Section, Label, Icon, StarRatingContainer, Star, Count, ReviewButton };
+export { ReviewContainer, Section, Label, Icon, Count, ReviewButton };
