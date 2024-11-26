@@ -17,26 +17,6 @@ export const LeftOptions = styled.div`
   align-items: center;
 `;
 
-export const Dropdown = styled.select`
-  padding: 1rem 2rem;
-  font-size: 2rem;
-  height: 42px;
-  border: none;
-  border-radius: 20px;
-  color: ${({ theme }) => theme.colors.white};
-  background: ${({ theme }) => theme.colors.main};
-  font-family: "Elice DX Neolli";
-  font-weight: 500;
-  outline: none;
-  option {
-    background: ${({ theme }) => theme.colors.white};
-    color: ${({ theme }) => theme.colors.black};
-    font-size: 1.6rem;
-    padding: 0.5rem 1rem;
-  }
-
-`;
-
 export const SearchButton = styled.button`
   padding: 1rem 2rem;
   font-size: 2rem;

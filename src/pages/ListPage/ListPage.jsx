@@ -40,6 +40,7 @@ const ListPage = () => {
   };
 
   const categoryOptions = [
+    "",
     "디자인",
     "라이프스타일",
     "언어",
@@ -48,9 +49,9 @@ const ListPage = () => {
     "금융/재테크",
   ];
 
-  const difficultyOptions = ["입문자", "초급자", "중급자", "상급자"];
+  const difficultyOptions = ["", "입문자", "초급자", "중급자", "상급자"];
 
-  const durationOptions = ["일주일 이내", "3달 이내", "6달 이내", "1년 이내"];
+  const durationOptions = ["", "일주일 이내", "3달 이내", "6달 이내", "1년 이내"];
 
   const sortedData = () => {
     const filteredData = listPageData.filter((item) => {
