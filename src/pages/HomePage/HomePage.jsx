@@ -17,33 +17,32 @@ const HomeContainer = styled.div`
 const Title = styled.div`
   color: #000;
   font-family: "Elice DX Neolli OTF";
-  font-size: 36px;
+  font-size: 3.6rem;
   font-weight: 700;
   line-height: 124.9%;
-  text-align: left; /* 제목을 왼쪽 정렬 */
-  margin: 0 104px; /* 카드와 제목 사이의 여백 */
+  text-align: left;
+  margin: 0 10.4rem;
 `;
 
-// 제목에 아이콘 스타일
 const TitleIcon = styled(FontAwesomeIcon)`
-  color: ${({ theme }) => theme.colors.main}; /* theme의 main 색상 적용 */
-  margin-left: 10px;
+  color: ${({ theme }) => theme.colors.main};
+  margin-left: 1rem;
 `;
 
 // 카드 컨테이너 스타일
 const CardContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 44px;
-  margin: 42px 104px;
+  gap: 4.4rem;
+  margin: 4.2rem 10.4rem;
 `;
 
 // ListCard 컨테이너 스타일
 const ListCardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 55px; /* ListCard 간의 55px 간격 */
-  margin: 22px 0; /* 최신리뷰와 ListCard 간의 22px 간격 */
+  gap: 5.5rem; /* ListCard 간의 55px 간격 */
+  margin: 2.2rem 0; /* 최신리뷰와 ListCard 간의 22px 간격 */
   width: 100%;
 `;
 

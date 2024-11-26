@@ -3,12 +3,12 @@ import styled from 'styled-components';
 // ListCard의 컨테이너 스타일
 export const ListCardContainer = styled.div`
   display: flex;
-  height: 322px;
-  padding: 54px 124px;
+  height: 32.2rem;
+  padding: 5.4rem 12.4rem;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  gap: 23px;
+  gap: 2.3rem;
   align-self: stretch;
   border-top: 1px solid #E55F00;
   border-bottom: 1px solid #E55F00;
@@ -19,7 +19,7 @@ export const ListCardContainer = styled.div`
 export const ListCardTitle = styled.div`
   color: #E55F00;
   font-family: "Elice DX Neolli OTF";
-  font-size: 24px;
+  font-size: 2.4rem;
   font-weight: 500;
   line-height: 124.9%;
   letter-spacing: 0.48px;
@@ -46,7 +46,7 @@ export const ListCardSubtitle = styled.div`
 export const ListCardDescription = styled.div`
   color: #000;
   font-family: "Elice DX Neolli OTF";
-  font-size: 16px;
+  font-size: 1.6rem;
   font-weight: 400;
   line-height: 140%;
   letter-spacing: 0.4px;

@@ -4,20 +4,14 @@ import banner2 from "../../assets/HomeImg/banner2.png"; // 배너 2
 import banner3 from "../../assets/HomeImg/banner3.png"; // 배너 1
 import banner4 from "../../assets/HomeImg/banner4.png"; // 배너 1
 import banner5 from "../../assets/HomeImg/banner5.png"; // 배너 1
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-
 import {
   GalleryContainer,
   ImageContainer,
   Image,
-  PrevButton,
-  NextButton,
-  TextOverlay,
-  Title,
-  Rating,
-  Content,
+  // TextOverlay,
+  // Title,
+  // Rating,
+  // Content,
   Indicator,
   IndicatorItem,
 } from "./Banner.style";
@@ -74,29 +68,14 @@ const Banner = () => {
     return () => clearInterval(interval); // 컴포넌트가 언마운트되면 interval을 정리
   }, []);
 
-  const prevImage = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? banners.length - 1 : prevIndex - 1
-    );
-  };
-
-  const nextImage = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === banners.length - 1 ? 0 : prevIndex + 1
-    );
-  };
 
   return (
     <GalleryContainer>
       <ImageContainer>
-        <PrevButton onClick={prevImage}>
-          <FontAwesomeIcon icon={faAngleLeft} />
-        </PrevButton>
+
         <Image src={banners[currentIndex].image} alt={`Image ${currentIndex + 1}`} />
-        <NextButton onClick={nextImage}>
-          <FontAwesomeIcon icon={faAngleRight} />
-        </NextButton>
-        <TextOverlay>
+
+        {/* <TextOverlay>
           <Title>{banners[currentIndex].title}</Title>
           <Rating>{banners[currentIndex].rating} {banners[currentIndex].score}</Rating>
           <Content>
@@ -107,7 +86,7 @@ const Banner = () => {
               </span>
             ))}
           </Content>
-        </TextOverlay>
+        </TextOverlay> */}
         <Indicator>
           {banners.map((_, index) => (
             <IndicatorItem
