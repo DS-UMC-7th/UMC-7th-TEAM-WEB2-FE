@@ -6,7 +6,6 @@ import PostPage from "./pages/PostPage/PostPage.jsx";
 import GlobalStyle from "./styles/GlobalStyle.js";
 import { ThemeProvider } from "styled-components";
 import theme from "./styles/theme.js";
-import Footer from "./components/Footer/Footer.jsx";
 import "./App.css";
 import RootLayout from "./components/layout/RootLayout.jsx";
 
