@@ -130,37 +130,6 @@ const GlobalStyle = createGlobalStyle`
     border-collapse: collapse;
     border-spacing: 0;
   }
-
-  /* Light Weight */
-  @font-face {
-    font-family: 'Elice DX Neolli';
-    src: url('/src/assets/fonts/EliceDXNeolliOTF-Light.otf') format('opentype');
-    font-weight: 300; /* Light */
-    font-style: normal;
-  }
-
-  /* Medium Weight */
-  @font-face {
-    font-family: 'Elice DX Neolli';
-    src: url('/src/assets/fonts/EliceDXNeolliOTF-Medium.otf') format('opentype');
-    font-weight: 500; /* Medium */
-    font-style: normal;
-  }
-
-  /* Bold Weight */
-  @font-face {
-    font-family: 'Elice DX Neolli';
-    src: url('/src/assets/fonts/EliceDXNeolliOTF-Bold.otf') format('opentype');
-    font-weight: 700; /* Bold */
-    font-style: normal;
-  }
-
-  /* Global font-family 적용 */
-  body {
-    font-family: 'Elice DX Neolli', sans-serif;
-    margin: 0;
-    padding: 0;
-  }
 `;
 
 export default GlobalStyle;
