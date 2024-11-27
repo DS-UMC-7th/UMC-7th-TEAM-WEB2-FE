@@ -1,10 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import { ReviewsContainer, SortBtn, Span } from "./DetailReviews.style";
 import CustomSelect from "../../Select/CustomSelect";
+import { renderIntoDocument } from "react-dom/test-utils";
 
 const DetailReviews = () => {
-  const [order, setOrder] = useState("recommended");
+  // 페이지 관련
+  const [products, setProducts] = useState([]); // 리스트에 나타낼 아이템들
+  const [count, setCount] = useState(5); // 아이템 총 개수
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 1
+  const [postPerPage] = useState(5); // 한 페이지에 5개씩
+  const [indexOfLastPost, setIndexOfLastPost] = useState(0); // 현재 페이지의 마지막 아이템의 인덱스
+  const [indexOfFirstPost, setIndexOfFirstPost] = useState(0); // 현재 페이지의 첫번째 아이템의 인덱스
+  const [currentPost, setCurrentPost] = useState(0); // 현재 페이지에서 보여줄 아이템
+
+  useEffect(() => {
+    setProducts(reviews);
+    setCount(5);
+    setCurrentPage(1);
+    setIndexOfLastPost(currentPage * postPerPage);
+    setIndexOfFirstPost(indexOfLastPost - postPerPage);
+    setCurrentPost(reviews.slice(indexOfFirstPost, indexOfLastPost));
+  }, [currentPage, indexOfLastPost, indexOfFirstPost, products, postPerPage]);
+
+  const [order, setOrder] = useState("recommended"); // 리뷰 정렬
 
   const reviews = [
     {
@@ -31,6 +50,13 @@ const DetailReviews = () => {
     {
       selectedStars: [true, false, false, false, false],
       date: "2024.04.20",
+      studyDate: "일주일 이내",
+      content:
+        "작년 겨울 선생님의 수업을 듣고 3개월 만에 가게를 오픈하게 될 수 있었습니다. 벌써 1년째 무사히 운영을 하며, 색감 표현하는 법도 몰랐던 제가 혼자서 조색을 하고, 화과자를 만드는 시간을 너무 행복하게 느끼며 하루하루 새로이 살아가고 있습니다. 선생님의 감사함을 항상 잊지 않으며, 덕분에 화과자라는 업종을 알게 되어서 정말 행복하다는 말씀 드리고 싶어요",
+    },
+    {
+      selectedStars: [true, true, false, false, false],
+      date: "2024.03.20",
       studyDate: "일주일 이내",
       content:
         "작년 겨울 선생님의 수업을 듣고 3개월 만에 가게를 오픈하게 될 수 있었습니다. 벌써 1년째 무사히 운영을 하며, 색감 표현하는 법도 몰랐던 제가 혼자서 조색을 하고, 화과자를 만드는 시간을 너무 행복하게 느끼며 하루하루 새로이 살아가고 있습니다. 선생님의 감사함을 항상 잊지 않으며, 덕분에 화과자라는 업종을 알게 되어서 정말 행복하다는 말씀 드리고 싶어요",

@@ -12,6 +12,7 @@ const Span = styled.span`
   font-size: 15px;
   font-weight: 300;
   color: ${(props) => (props.isActive ? "#E55F00" : "#6C6C6C")};
+  cursor: pointer;
 `;
 
 const SortBtn = styled.button`
