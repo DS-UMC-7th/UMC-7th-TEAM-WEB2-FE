@@ -154,6 +154,14 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 700; /* Bold */
     font-style: normal;
   }
+  
+  /* home list text */
+  @font-face {
+  font-family: 'Pretendard Variable';
+  src: url('/src/assets/fonts/PretendardVariable.ttf') format('truetype');
+  font-weight: 300 500; 
+  font-style: normal;
+}
 
   /* Global font-family 적용 */
   body {
@@ -161,6 +169,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
   }
+  
 `;
 
 export default GlobalStyle;
