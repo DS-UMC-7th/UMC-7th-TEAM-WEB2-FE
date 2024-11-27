@@ -22,6 +22,7 @@ const Navbar = () => {
   };
 
   const onClick = () => {
+    if (!searchValue.trim()) return;
     if (query === searchValue) return;
     navigate(`/list?query=${encodeURIComponent(searchValue)}`);
   };
