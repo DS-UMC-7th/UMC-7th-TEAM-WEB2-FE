@@ -26,17 +26,20 @@ const CustomDropdown = ({ title, options }) => {
       {isOpen && (
         <S.OptionsContainer>
           {options.map((option) => (
-            <S.Option key={option} onClick={() => handleOptionClick(option)}>
+            <S.Option key={option}>
+              <span>{option}</span>
+
               <label>
-                <span>{option}</span>
                 <input 
                   type="checkbox" 
                   checked={checkedOptions.includes(option)} 
                   onChange={() => handleOptionClick(option)} 
                 />
+                <span /> {/* 체크박스를 대체할 이미지 */}
               </label>
             </S.Option>
           ))}
+
         </S.OptionsContainer>
       )}
     </S.Container>

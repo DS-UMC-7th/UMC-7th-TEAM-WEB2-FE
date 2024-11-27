@@ -45,49 +45,52 @@ export const OptionsContainer = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.colors.white};
   border: 1.5px solid ${({ theme }) => theme.colors.main};
-  border-radius: 21px;
+  border-radius: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  padding: 1rem 0;
   box-sizing: border-box; 
+  padding: 1.9rem 1.1rem 2.1rem;
+  gap: 1.2rem;
 `;
 
 export const Option = styled.div`
-  padding: 0.8rem;
   color: ${({ theme }) => theme.colors.black};
   display: flex;
   align-items: center;
   cursor: pointer;
   position: relative;
-
-  &:first-child {
-    visibility: hidden;
-  }
+  justify-content: space-between;
 
   label {
     display: flex;
     align-items: center;
-    gap: 0.2rem;
     cursor: pointer;
-    width: 100%;
-    justify-content: space-between;
+    gap: 1rem; /* 텍스트와 체크박스 사이 간격 */
   }
 
-  span {
+  span:first-child {
     font-family: "Elice DX Neolli";
-    font-size: 1.6rem;
+    font-size: 1.4rem;
+    flex-grow: 1;
   }
 
   input[type="checkbox"] {
+    display: none;
+  }
+
+  input[type="checkbox"] + span {
+    display: block;
     width: 1.8rem;
     height: 1.8rem;
-    border: none;
-    border-radius: 4px;
-    accent-color: ${({ theme }) => theme.colors.main};
-    color: ${({ theme }) => theme.colors.white};
+    background-image: url('/src/assets/no_check.svg'); 
+    background-size: cover;
+    background-position: center;
     cursor: pointer;
+  }
+
+  input[type="checkbox"]:checked + span {
+    background-image: url('/src/assets/check.svg');
   }
 `;
