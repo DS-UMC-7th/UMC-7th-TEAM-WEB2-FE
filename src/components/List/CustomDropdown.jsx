@@ -21,7 +21,7 @@ const CustomDropdown = ({ title, options }) => {
     <S.Container>
       <S.Header onClick={toggleDropdown} $isOpen={isOpen}>
         <span>{selected}</span>
-        <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
+        <FontAwesomeIcon icon={isOpen ? faChevronDown : faChevronUp} />
       </S.Header>
       {isOpen && (
         <S.OptionsContainer>
