@@ -1,4 +1,5 @@
 import React from "react";
+<<<<<<< HEAD
 import DetailHeader from "../../components/Detail/DetailHeader/DetailHeader";
 import Gallery from "../../components/Detail/Gallery/Gallery";
 import DetailReview from "../../components/Detail/DetailReview/DetailReview";
@@ -18,3 +19,11 @@ const DetailPage = () => {
 };
 
 export default DetailPage;
+=======
+
+const DetailPage = () => {
+  return <div>Detail Page</div>;
+};
+
+export default DetailPage;
+>>>>>>> 67b52aa21a257ae9c4fab463b7f134806b7f66ae
