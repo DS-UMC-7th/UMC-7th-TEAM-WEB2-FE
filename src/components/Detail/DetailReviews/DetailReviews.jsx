@@ -24,7 +24,7 @@ const DetailReviews = () => {
   const sortedReview =
     order === "latest"
       ? [...reviews].sort((a, b) => new Date(a.date) - new Date(b.date)) // 최신순
-      : [...reviews].sort((a, b) => b.selectedStars.filter((star) => star).length - a.selectedStars.filter((star) => star).length); // 추천순
+      : [...reviews].sort((a, b) => b.likeCount - a.likeCount); // 추천순
 
   // 페이지네이션
   const indexOfLastPost = currentPage * postPerPage;
