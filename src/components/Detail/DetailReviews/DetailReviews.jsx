@@ -34,6 +34,13 @@ const DetailReviews = () => {
   // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+
+    // ReviewsContainer로 스크롤 이동
+    const reviewsElement = document.getElementById("reviewsContainer");
+    if (reviewsElement) {
+      const offsetTop = reviewsElement.offsetTop;
+      window.scrollTo({ top: offsetTop, behavior: "smooth" });
+    }
   };
 
   // 드롭다운
@@ -45,7 +52,7 @@ const DetailReviews = () => {
 
   return (
     <>
-      <ReviewsContainer>
+      <ReviewsContainer id="reviewsContainer">
         <div>
           <SortBtn>
             <Span onClick={() => setOrder("recommended")} isActive={order === "recommended"}>
