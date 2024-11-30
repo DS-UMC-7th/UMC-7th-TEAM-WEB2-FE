@@ -39,15 +39,7 @@ const ListPage = () => {
     setSortOrder(order);
   };
 
-  const categoryOptions = [
-    "",
-    "디자인",
-    "라이프스타일",
-    "언어",
-    "요리",
-    "IT/프로그래밍",
-    "금융/재테크",
-  ];
+  const categoryOptions = ["", "디자인", "라이프스타일", "언어", "요리", "IT/프로그래밍", "금융/재테크"];
 
   const difficultyOptions = ["", "입문자", "초급자", "중급자", "상급자"];
 
@@ -68,8 +60,8 @@ const ListPage = () => {
 
     if (sortOrder === "최신순") {
       return filteredData.sort((a, b) => {
-        const dateA = new Date(a.date.split('.').reverse().join('-'));
-        const dateB = new Date(b.date.split('.').reverse().join('-'));
+        const dateA = new Date(a.date.split(".").reverse().join("-"));
+        const dateB = new Date(b.date.split(".").reverse().join("-"));
         return dateB - dateA;
       });
     }
@@ -83,36 +75,18 @@ const ListPage = () => {
     <S.Container>
       <S.OptionContainer>
         <S.LeftOptions>
-          <CustomDropdown
-            title="카테고리"
-            options={categoryOptions}
-            onChange={(value) => handleDropdownChange("category", value)}
-          />
-          <CustomDropdown
-            title="난이도"
-            options={difficultyOptions}
-            onChange={(value) => handleDropdownChange("difficulty", value)}
-          />
-          <CustomDropdown
-            title="수강 기간"
-            options={durationOptions}
-            onChange={(value) => handleDropdownChange("duration", value)}
-          />
+          <CustomDropdown title="카테고리" options={categoryOptions} onChange={(value) => handleDropdownChange("category", value)} />
+          <CustomDropdown title="난이도" options={difficultyOptions} onChange={(value) => handleDropdownChange("difficulty", value)} />
+          <CustomDropdown title="수강 기간" options={durationOptions} onChange={(value) => handleDropdownChange("duration", value)} />
           <S.SearchButton>검색</S.SearchButton>
         </S.LeftOptions>
 
         <S.RightOptions>
-          <S.SortButton
-            $isActive={sortOrder === "추천순"}
-            onClick={() => handleSortChange("추천순")}
-          >
+          <S.SortButton $isActive={sortOrder === "추천순"} onClick={() => handleSortChange("추천순")}>
             추천순
           </S.SortButton>
           <S.Divider />
-          <S.SortButton
-            $isActive={sortOrder === "최신순"}
-            onClick={() => handleSortChange("최신순")}
-          >
+          <S.SortButton $isActive={sortOrder === "최신순"} onClick={() => handleSortChange("최신순")}>
             최신순
           </S.SortButton>
         </S.RightOptions>
@@ -129,7 +103,6 @@ const ListPage = () => {
             date={list.date}
             description={list.description}
             onClick={() => handleListCardClick(list.id)}
-
           />
         ))}
       </S.ListDataComponent>

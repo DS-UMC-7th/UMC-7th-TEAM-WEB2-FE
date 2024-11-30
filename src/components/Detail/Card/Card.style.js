@@ -36,6 +36,12 @@ const LikeBtn = styled.button`
     width: 17px;
     height: 17px;
   }
+
+  cursor: pointer;
+
+  &:hover {
+    background: #fdead9;
+  }
 `;
 
 const ReviewInfo = styled.span`

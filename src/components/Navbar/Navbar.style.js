@@ -9,6 +9,7 @@ const NavContainer = styled.div`
   flex-direction: row;
   align-items: center;
   padding: 40px 60px;
+  border-bottom: 1px solid #f1f1f1;
 `;
 
 const NavDiv = styled.div`
