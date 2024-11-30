@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import { ReviewsContainer, SortBtn, Span } from "./DetailReviews.style";
-import CustomSelect from "../../Select/CustomSelect";
 import Paging from "../../Pagination/Pagination";
 import reviewsData from "/public/data/reviews.json";
+import CustomDropdown from "../../List/CustomDropdown";
 
 const DetailReviews = () => {
   const [reviews, setReviews] = useState(reviewsData.reviews);
@@ -36,6 +36,13 @@ const DetailReviews = () => {
     setCurrentPage(pageNumber);
   };
 
+  // 드롭다운
+  const starOptions = ["", "전체", "5", "4", "3", "2", "1"];
+
+  const handleDropdownChange = (key, value) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
+
   return (
     <>
       <ReviewsContainer>
@@ -53,7 +60,7 @@ const DetailReviews = () => {
           </SortBtn>
         </div>
         <div>
-          <CustomSelect />
+          <CustomDropdown title="전체" options={starOptions} onChange={(value) => handleDropdownChange("category", value)} />
         </div>
       </ReviewsContainer>
 
