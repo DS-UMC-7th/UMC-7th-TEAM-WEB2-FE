@@ -20,7 +20,7 @@ const router = createBrowserRouter([
       },
       { path: "list", element: <ListPage /> },
       { path: "post", element: <PostPage /> },
-      { path: "detail", element: <DetailPage /> },
+      { path: "detail/:id", element: <DetailPage /> },
     ],
   },
 ]);
