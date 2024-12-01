@@ -111,6 +111,7 @@ const ErrorMessage = styled.p`
 `;
 
 
+
 const Input = ({
   label,
   iconSrc,
@@ -126,6 +127,7 @@ const Input = ({
   onTagRemove,
   characterLimit,
   error,
+  variant,
 }) => {
   return (
     <Section>
@@ -139,6 +141,7 @@ const Input = ({
     value={value}
     onChange={onChange}
   />
+  {variant === 'lecture' && <PlaceholderText>직접 입력하기</PlaceholderText>}
   {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러가 있을 때만 렌더링 */}
   {characterLimit && (
     <PlaceholderText>{`${value.length}/${characterLimit}`}</PlaceholderText>

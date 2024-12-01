@@ -291,6 +291,7 @@ const handleReviewChange = (e) => {
   onChange={handleSearchChange}
   searchResults={searchResults}
   onResultClick={handleResultClick}
+   variant="lecture"
 />
 
 <Input
