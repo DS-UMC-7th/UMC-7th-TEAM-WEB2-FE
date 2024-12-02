@@ -161,12 +161,21 @@ const handleReviewChange = (e) => {
     }
   };
     
+    
+
       const handleResultClick = (result) => {
         setSearchTerm(result.name); // 검색어에 선택된 결과를 설정
         setLectureName(result.name); // 강의명 저장
         setInstructorName(result.instructor); // 강사명 자동 설정
+      
+        // 플랫폼 자동으로 채우기
+        if (!tags.includes(result.platform)) { // 중복 방지
+          setTags((prevTags) => [...prevTags, result.platform]);
+        }
+      
         setSearchResults([]); // 결과 초기화
       };
+      
       
 
   const handleTagKeyDown = (e) => {
@@ -219,12 +228,11 @@ const handleReviewChange = (e) => {
 
   const radioOptions = ['일주일 이내', '3달 이내', '6달 이내', '1년 이내', '아직 수강중임'];
 
-  const handleSubmit = () => {
+  /*const handleSubmit = () => {
     schema
       .validate({ lectureName, instructorName, review }, { abortEarly: false })
       .then(() => {
         console.log('Form Submitted:', { lectureName, instructorName, review });
-        alert('리뷰가 성공적으로 제출되었습니다!');
       })
       .catch((errors) => {
         // 각 필드에 대해 에러 메시지 설정
@@ -273,9 +281,48 @@ const handleReviewChange = (e) => {
     console.log('Form Submitted:', data);
     alert('리뷰가 성공적으로 제출되었습니다!');
     setErrorMessage('');
+  };*/
+
+
+  const handleSubmit = () => {
+    schema
+      .validate({ lectureName, instructorName, review }, { abortEarly: false })
+      .then(() => {
+        if (
+          lectureName &&
+          instructorName.length <= 10 &&
+          review.trim() &&
+          rating > 0 &&
+          completionTime
+        ) {
+          const data = {
+            lectureName,
+            instructorName,
+            tags,
+            rating,
+            review,
+            uploadedImage,
+            completionTime,
+          };
+  
+          console.log('Form Submitted:', data); // 성공한 경우에만 출력
+          alert('리뷰가 성공적으로 제출되었습니다!');
+          setErrorMessage('');
+        } else {
+          setErrorMessage('* 필수 항목을 모두 입력해주세요.');
+        }
+      })
+      .catch((errors) => {
+        // 각 필드에 대해 에러 메시지 설정
+        errors.inner.forEach((error) => {
+          if (error.path === 'lectureName') setLectureNameError(error.message);
+          if (error.path === 'instructorName') setInstructorNameError(error.message);
+          if (error.path === 'review') setReviewError(error.message);
+        });
+      });
   };
 
-
+  
   return (
     <Container>
       <Title>강의평 등록</Title>

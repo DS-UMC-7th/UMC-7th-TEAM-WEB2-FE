@@ -88,6 +88,17 @@ const SearchResultItem = styled.div`
   }
 `;
 
+/*const PlaceholderText = styled.span`
+  position: absolute;
+  right: 16px;
+  color: ${({ theme }) => theme.colors.main};
+  font-family: 'Pretendard Variable';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 124.9%;
+`;*/
+
 const PlaceholderText = styled.span`
   position: absolute;
   right: 16px;
@@ -97,8 +108,9 @@ const PlaceholderText = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
+  opacity: ${({ isHidden }) => (isHidden ? 0 : 1)};
+  transition: opacity 0.2s ease-in-out;
 `;
-
 
 const ErrorMessage = styled.p`
   position: absolute;
@@ -141,7 +153,9 @@ const Input = ({
     value={value}
     onChange={onChange}
   />
-  {variant === 'lecture' && <PlaceholderText>직접 입력하기</PlaceholderText>}
+  {variant === 'lecture' && (
+          <PlaceholderText isHidden={value.length > 0}>직접 입력하기</PlaceholderText>
+        )}
   {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러가 있을 때만 렌더링 */}
   {characterLimit && (
     <PlaceholderText>{`${value.length}/${characterLimit}`}</PlaceholderText>
