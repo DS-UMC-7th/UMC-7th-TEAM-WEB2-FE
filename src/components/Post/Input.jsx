@@ -154,27 +154,29 @@ const Input = ({
     onChange={onChange}
   />
   {variant === 'lecture' && (
-          <PlaceholderText isHidden={value.length > 0}>직접 입력하기</PlaceholderText>
+         <PlaceholderText hidden={value.length > 0}>직접 입력하기</PlaceholderText>
+
         )}
   {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러가 있을 때만 렌더링 */}
   {characterLimit && (
     <PlaceholderText>{`${value.length}/${characterLimit}`}</PlaceholderText>
   )}
-  {searchResults.length > 0 && (
-    <SearchResultContainer>
-      {searchResults.map((result) => (
-        <SearchResultItem
-          key={result.id}
-          onClick={() => onResultClick(result)}
-        >
-          {result.name}
-          <br />
-          <div style={{ fontSize: '14px', color: '#888' }}>
-            {result.platform} | {result.instructor}
-          </div>
-        </SearchResultItem>
-      ))}
-    </SearchResultContainer>
+ {searchResults.length > 0 && (
+  <SearchResultContainer>
+  {searchResults.map((result, index) => (
+    <SearchResultItem
+      key={index} // key 추가
+      onClick={() => onResultClick(result)} // 클릭 시 실행
+    >
+      {result.name}
+      <br />
+      <div style={{ fontSize: '14px', color: '#888' }}>
+        {result.platform} | {result.instructor}
+      </div>
+    </SearchResultItem>
+  ))}
+</SearchResultContainer>
+
   )}
 </StyledInputContainer>
 

@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState ,useCallback } from 'react';
 import styled from 'styled-components';
+import debounce from 'lodash.debounce'; // lodash.debounce 사용
 import * as yup from 'yup';
 import Input from './Input';
 import Platform from './Platform';
 import ImageUpload from './ImageUpload';
 import ReviewInput from './ReviewInput';
 import StarRating from './StarRating';
+import axios from 'axios';
 import CompletionTimeInput from './CompletionTimeInput';
+import { searchLecture, registerLecture, submitReview } from '../../utils/api/api';
+
 
 const Container = styled.div`
  display: flex;
@@ -89,23 +93,17 @@ const PostForm = () => {
   const [instructorNameError, setInstructorNameError] = useState('');
   const [reviewError, setReviewError] = useState('');
 
+  const [selectedLectureId, setSelectedLectureId] = useState(null);
+  const [file, setFile] = useState(null); // 업로드된 파일 상태
+
+
+
 
  // Yup validation schema
  const schema = yup.object().shape({
-  lectureName: yup
-    .string()
-    .required('강의명을 입력해주세요.')
-    .min(3, '강의명은 최소 3자 이상이어야 합니다.')
-    .max(50, '강의명은 최대 50자 이내여야 합니다.'),
-  instructorName: yup
-    .string()
-    .required('강사명을 입력해주세요.')
-    .max(10, '강사명은 최대 10자 이내여야 합니다.'),
-  review: yup
-    .string()
-    .required('강의평이 입력되지 않았습니다.')
-    .min(10, '강의평은 최소 10자 이상이어야 합니다.')
-    .max(300, '강의평은 최대 300자 이내여야 합니다.'),
+  lectureName: yup.string().required('강의명을 입력해주세요.'),
+  instructorName: yup.string().required('강사명을 입력해주세요.'),
+  review: yup.string().required('강의평이 입력되지 않았습니다.'),
 });
 
 const validateField = async (field, value, setError) => {
@@ -118,11 +116,42 @@ const validateField = async (field, value, setError) => {
 };
 
 
+const handleSearch = useCallback(
+  debounce(async (value) => {
+    try {
+      if (value) {
+        const response = await searchLecture(value); // `/api/search` 호출
+        if (response.data.isSuccess && response.data.result.reviewList.length > 0) {
+          const results = response.data.result.reviewList.map((item) => ({
+            id: item.reviewId, // 강의 ID
+            name: item.lectureName, // 강의명
+            platform: item.platform, // 플랫폼
+            instructor: item.teacher, // 강사명
+          }));
+          setSearchResults(results); // 검색 결과 상태 저장
+        } else {
+          setSearchResults([]); // 검색 실패 시 빈 배열
+        }
+      } else {
+        setSearchResults([]); // 검색어가 비어있으면 결과 초기화
+      }
+    } catch (error) {
+      console.error('검색 실패:', error.response?.data || error.message);
+      setSearchResults([]);
+    }
+  }, 500), // 디바운스 500ms
+  []
+);
+
+
+
+
 const handleLectureNameChange = (e) => {
   const value = e.target.value;
   setLectureName(value);
   validateField('lectureName', value, setLectureNameError); // 실시간 유효성 검사
 };
+
 
 const handleInstructorNameChange = (e) => {
   const value = e.target.value;
@@ -146,7 +175,7 @@ const handleReviewChange = (e) => {
   ];
   
 
-  const handleSearchChange = (e) => {
+  /*const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
   
@@ -159,11 +188,18 @@ const handleReviewChange = (e) => {
     } else {
       setSearchResults([]);
     }
+  };*/
+
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value.trim();
+    setSearchTerm(value);
+    handleSearch(value); // Debounced 검색 실행
   };
-    
+
     
 
-      const handleResultClick = (result) => {
+      /*const handleResultClick = (result) => {
         setSearchTerm(result.name); // 검색어에 선택된 결과를 설정
         setLectureName(result.name); // 강의명 저장
         setInstructorName(result.instructor); // 강사명 자동 설정
@@ -174,9 +210,17 @@ const handleReviewChange = (e) => {
         }
       
         setSearchResults([]); // 결과 초기화
+      };*/
+      
+      const handleResultClick = (result) => {
+        setLectureName(result.name); // 강의명 채우기
+        setInstructorName(result.instructor); // 강사명 채우기
+        setTags([result.platform]); // 플랫폼 설정
+        setSelectedLectureId(result.id); // 선택된 강의 ID 저장
+        setSearchResults([]); // 검색 결과 초기화
       };
       
-      
+
 
   const handleTagKeyDown = (e) => {
     if (e.key === 'Enter' && tagInput.trim() !== '') {
@@ -187,13 +231,17 @@ const handleReviewChange = (e) => {
   };
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => setUploadedImage(reader.result);
-      reader.readAsDataURL(file);
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      const fileUrl = URL.createObjectURL(selectedFile); // 브라우저 미리보기 URL 생성
+      setUploadedImage(fileUrl); // 미리보기 설정
+      setFile(selectedFile); // 실제 파일 저장
     }
   };
+  
+  
+  
+  
 
 
 
@@ -219,72 +267,23 @@ const handleReviewChange = (e) => {
     setTags(tags.filter((_, index) => index !== indexToRemove));
   };
   
+  const handleRadioClick = (optionValue) => {
+    setSelectedOption((prev) => (prev === optionValue ? null : optionValue)); // 선택된 옵션 값 설정
+    setCompletionTime((prev) => (prev === optionValue ? '' : optionValue)); // `completionTime` 업데이트
+  };
+  
 
- const handleRadioClick = (option) => {
-  setSelectedOption((prev) => (prev === option ? null : option)); // 라디오 선택 상태 관리
-  setCompletionTime(option === selectedOption ? '' : option); // completionTime 값 설정
-};
+const radioOptions = [
+  { label: "일주일 이내", value: "A_WEEK" },
+  { label: "3달 이내", value: "THREE_MONTH" },
+  { label: "6달 이내", value: "SIX_MONTH" },
+  { label: "1년 이내", value: "A_YEAR" },
+  { label: "아직 수강중임", value: "STILL_ENROLLING" },
+];
 
 
-  const radioOptions = ['일주일 이내', '3달 이내', '6달 이내', '1년 이내', '아직 수강중임'];
 
   /*const handleSubmit = () => {
-    schema
-      .validate({ lectureName, instructorName, review }, { abortEarly: false })
-      .then(() => {
-        console.log('Form Submitted:', { lectureName, instructorName, review });
-      })
-      .catch((errors) => {
-        // 각 필드에 대해 에러 메시지 설정
-        errors.inner.forEach((error) => {
-          if (error.path === 'lectureName') setLectureNameError(error.message);
-          if (error.path === 'instructorName') setInstructorNameError(error.message);
-          if (error.path === 'review') setReviewError(error.message);
-        });
-      });
-
-    if (
-      lectureName &&
-      instructorName.length <= 10 &&
-      review.trim() &&
-      rating > 0 &&
-      completionTime
-    ) {
-      const data = {
-        lectureName,
-        instructorName,
-        tags,
-        rating,
-        review,
-        uploadedImage,
-        completionTime,
-      };
-
-      console.log('Form Submitted:', data);
-      setErrorMessage('');
-    }
-    if (!lectureName || !instructorName || rating === 0 || !review || !completionTime) {
-      setErrorMessage('* 필수 항목을 모두 입력해주세요.');
-      return;
-    }
-
-    const data = {
-      lectureName,
-      instructorName,
-      tags,
-      rating,
-      review,
-      uploadedImage,
-      completionTime,
-    };
-
-    console.log('Form Submitted:', data);
-    alert('리뷰가 성공적으로 제출되었습니다!');
-    setErrorMessage('');
-  };*/
-
-
-  const handleSubmit = () => {
     schema
       .validate({ lectureName, instructorName, review }, { abortEarly: false })
       .then(() => {
@@ -320,8 +319,47 @@ const handleReviewChange = (e) => {
           if (error.path === 'review') setReviewError(error.message);
         });
       });
+  };*/
+  const handleSubmit = async () => {
+    try {
+      await schema.validate(
+        { lectureName, instructorName, review },
+        { abortEarly: false }
+      );
+  
+      let lectureId = selectedLectureId;
+  
+      // 강의 등록이 필요한 경우 처리
+      if (!lectureId) {
+        const lectureResponse = await registerLecture({
+          name: lectureName,
+          instructor: instructorName,
+          platform: tags[0],
+        });
+        lectureId = lectureResponse.result.lectureId; // 새로 등록된 강의 ID
+      }
+  
+      // 리뷰 등록 요청
+      await submitReview({
+        rating,          // 숫자
+        content: review, // 문자열
+        studyTime: completionTime, // 이미 올바른 value 값 (예: "A_WEEK")
+        lectureId,       // 숫자 또는 문자열
+        image: file,     // 파일 객체
+      });
+  
+      alert('리뷰가 성공적으로 등록되었습니다!');
+    } catch (error) {
+      console.error('리뷰 등록 실패:', error.response?.data || error.message);
+      setErrorMessage('리뷰 등록 중 문제가 발생했습니다.');
+    }
   };
-
+  
+  
+  
+  
+  
+  
   
   return (
     <Container>
@@ -331,15 +369,15 @@ const handleReviewChange = (e) => {
       </RequiredNote>
 
       <Input
-  label="강의명"
-  iconSrc="/src/assets/Vector.svg"
-  placeholder="강의명을 검색해주세요."
-  value={searchTerm}
-  onChange={handleSearchChange}
-  searchResults={searchResults}
-  onResultClick={handleResultClick}
-   variant="lecture"
-/>
+        label="강의명"
+        iconSrc="/src/assets/Vector.svg"
+        placeholder="강의명을 검색해주세요."
+        value={searchTerm}
+        onChange={handleSearchChange}
+        onResultClick={handleResultClick}
+        searchResults={searchResults}
+        variant="lecture"
+      />
 
 <Input
   label="강사명"

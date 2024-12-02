@@ -1,18 +1,61 @@
 import axios from 'axios';
 
-// 기본 axios 설정 (Base URL 추가)
 const apiClient = axios.create({
-  baseURL: 'http://52.78.171.209:8080', 
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: import.meta.env.VITE_API_BASE_URL, // Vite 환경 변수 사용
 });
 
 // 강의 검색 API
-export const searchLecture = (query) => apiClient.get(`/api/search?query=${query}`);
+export const searchLecture = async (keyword) => {
+  const response = await apiClient.get('api/search', {
+    params: { keyword }, // 쿼리 파라미터 전달
+  });
+  return response;
+};
 
-// 강의 등록 API
-export const registerLecture = (lectureData) => apiClient.post('/api/lectures', lectureData);
+export const registerLecture = async (lectureData) => {
+  const response = await apiClient.post('/api/lectures', lectureData, {
+    headers: {
+      'Content-Type': 'application/json', // 명세에 따른 JSON 요청
+    },
+  });
+  return response.data;
+};
 
-// 리뷰 등록 API
-export const submitReview = (reviewData) => apiClient.post('/api/reviews', reviewData);
+export const submitReview = async ({ rating, content, studyTime, lectureId, image }) => {
+  if (!image) {
+    // JSON 요청 처리 (이미지 없는 경우)
+    const response = await apiClient.post(
+      '/api/reviews',
+      {
+        rating,
+        content,
+        studyTime,
+        lectureId,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    return response.data;
+  } else {
+    // multipart/form-data 요청 처리 (이미지 있는 경우)
+    const formData = new FormData();
+
+    // JSON 데이터를 Blob으로 변환하여 FormData에 추가
+    const reviewBlob = new Blob(
+      [JSON.stringify({ rating, content, studyTime, lectureId })],
+      { type: 'application/json' }
+    );
+    formData.append('review', reviewBlob); // JSON 데이터를 Blob으로 추가
+
+    // 이미지 파일 추가
+    formData.append('image', image);
+
+    // API 요청
+    const response = await apiClient.post('/api/reviews', formData);
+
+    return response.data;
+  }
+};
