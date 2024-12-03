@@ -101,6 +101,9 @@ const PostForm = () => {
   const [lectureId, setLectureId] = useState(null); // 강의 ID 저장
   const [isLectureSubmitted, setIsLectureSubmitted] = useState(false); // 강의 등록 여부
 
+  const [isSearchVisible, setIsSearchVisible] = useState(true); // 검색 결과 표시 상태
+
+
 
 
 
@@ -218,7 +221,10 @@ const handleResultClick = (result) => {
   setSelectedLectureId(result.id);
   setSearchResults([]);
   setIsManualInput(false);
+  setIsSearchVisible(false); // 검색 결과 숨기기
 };
+
+
   
   const lectureData = [
     { id: 1, name: '초보자를 위한 화초 기르기', platform: '플로스', instructor: '갸또디솔레 대표 서지현' },
@@ -231,8 +237,12 @@ const handleResultClick = (result) => {
   const handleSearchChange = (e) => {
     const value = e.target.value.trim();
     setSearchTerm(value);
+    setIsSearchVisible(true); // 검색 결과 다시 표시
     handleSearch(value); // Debounced 검색 실행
   };
+  
+
+  
 
   const handleManualInputClick = () => {
     setIsManualInput(true);
@@ -295,54 +305,6 @@ const radioOptions = [
 ];
 
 
-
-  
- /*const handleSubmit = async () => {
-    try {
-      await schema.validate(
-        { lectureName, instructorName, review },
-        { abortEarly: false }
-      );
-  
-      let lectureId = selectedLectureId;
-  
-      // 강의 등록이 필요한 경우 처리
-      if (!lectureId) {
-        const lectureResponse = await registerLecture({
-          name: lectureName,
-          instructor: instructorName,
-          platform: tags[0],
-        });
-        lectureId = lectureResponse.result.lectureId; // 새로 등록된 강의 ID
-      }
-  
-      // 리뷰 등록 요청
-      const reviewData = {
-        rating,          // 숫자
-        content: review, // 문자열
-        studyTime: completionTime, // 이미 올바른 value 값 (예: "A_WEEK")
-        lectureId,       // 숫자 또는 문자열
-        image: file,     // 파일 객체
-      };
-  
-      // 요청 데이터를 콘솔에 출력
-      console.log("Sending review data to API:", reviewData);
-  
-      const response = await submitReview(reviewData);
-  
-      // 성공 메시지와 백엔드 응답 데이터 출력
-      console.log("Review submitted successfully:", response);
-      alert('리뷰가 성공적으로 등록되었습니다!');
-    } catch (error) {
-      console.error('리뷰 등록 실패:', error.response?.data || error.message);
-      if (error.response?.data?.message) {
-        setErrorMessage(error.response.data.message);
-      } else {
-        setErrorMessage('리뷰 등록 중 문제가 발생했습니다.');
-      }
-    }
-  };*/
-  
   const handleSubmit = async () => {
     try {
       await schema.validate(
@@ -410,6 +372,9 @@ const radioOptions = [
   searchResults={!isManualInput ? searchResults : []}
   variant="lecture"
   onManualInputClick={!isManualInput ? handleManualInputClick : undefined}
+  isManualInput={isManualInput}
+  isSearchVisible={isSearchVisible} // 추가
+  setIsSearchVisible={setIsSearchVisible} // 추가
 />
 
 

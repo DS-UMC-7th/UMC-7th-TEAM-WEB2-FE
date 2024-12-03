@@ -141,6 +141,8 @@ const Input = ({
   error,
   variant,
   onManualInputClick, // 직접 입력하기 클릭 핸들러
+  isManualInput,
+  isSearchVisible,
 }) => {
   return (
     <Section>
@@ -162,7 +164,7 @@ const Input = ({
   {characterLimit && (
     <PlaceholderText>{`${value.length}/${characterLimit}`}</PlaceholderText>
   )}
- {searchResults.length > 0 && (
+ {!isManualInput &&isSearchVisible&&searchResults.length > 0 && (
   <SearchResultContainer>
   {searchResults.map((result, index) => (
     <SearchResultItem
