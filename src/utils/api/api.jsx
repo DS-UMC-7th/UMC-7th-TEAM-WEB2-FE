@@ -13,44 +13,42 @@ export const searchLecture = async (keyword) => {
 };
 
 export const registerLecture = async (lectureData) => {
-  const response = await apiClient.post('/api/lectures', lectureData, {
-    headers: {
-      'Content-Type': 'application/json', // 명세에 따른 JSON 요청
-    },
-  });
-  return response.data;
-};
-
-/*export const submitReview = async ({ rating, content, studyTime, lectureId, image }) => {
-  if (!image) {
-    // JSON 요청 처리 (이미지 없는 경우)
-    const response = await apiClient.post('/api/reviews', {
-      rating,
-      content,
-      studyTime,
-      lectureId,
-    });
-    return response.data;
-  } else {
-    // multipart/form-data 요청 처리 (이미지 있는 경우)
+  try {
+    // FormData 객체 생성
     const formData = new FormData();
 
-    // JSON 데이터를 Blob으로 변환하여 FormData에 추가
-    const reviewBlob = new Blob(
-      [JSON.stringify({ rating, content, studyTime, lectureId })],
-      { type: 'application/json' }
-    );
-    formData.append('review', reviewBlob);
+    // 강의 데이터 JSON을 Blob으로 변환하여 추가
+    const dataWithDefaults = {
+      name: lectureData.name || "",
+      teacher: lectureData.teacher || "",
+      platform: lectureData.platform || "",
+      category: lectureData.category || null, // category 기본값 null
+      level: lectureData.level || null, // level 기본값 null
+    };
+    formData.append('lectureRequest', new Blob([JSON.stringify(dataWithDefaults)], { type: 'application/json' }));
 
-    // 이미지 파일 추가
-    formData.append('image', image);
+    // 이미지 처리 (이미지 파일이 있으면 추가, 없으면 빈 문자열로 추가)
+    if (lectureData.image) {
+      formData.append('image', lectureData.image); // 이미지 파일 추가
+    } else {
+      formData.append('image', ""); // 이미지 없는 경우 빈 문자열 추가
+    }
 
     // API 요청
-    const response = await apiClient.post('/api/reviews', formData);
+    const response = await apiClient.post('/api/lectures', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
     return response.data;
+  } catch (error) {
+    console.error('강의 등록 실패:', error.response?.data || error.message);
+    throw error;
   }
-};*/
+};
+
+
 
 export const submitReview = async ({ rating, content, studyTime, lectureId, image }) => {
   const formData = new FormData();

@@ -108,7 +108,7 @@ const PlaceholderText = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
-  opacity: ${({ isHidden }) => (isHidden ? 0 : 1)};
+cursor: pointer; /* 클릭 가능하도록 */
   transition: opacity 0.2s ease-in-out;
 `;
 
@@ -140,6 +140,7 @@ const Input = ({
   characterLimit,
   error,
   variant,
+  onManualInputClick, // 직접 입력하기 클릭 핸들러
 }) => {
   return (
     <Section>
@@ -154,7 +155,7 @@ const Input = ({
     onChange={onChange}
   />
   {variant === 'lecture' && (
-         <PlaceholderText hidden={value.length > 0}>직접 입력하기</PlaceholderText>
+ <PlaceholderText onClick={onManualInputClick}>직접 입력하기</PlaceholderText>
 
         )}
   {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러가 있을 때만 렌더링 */}

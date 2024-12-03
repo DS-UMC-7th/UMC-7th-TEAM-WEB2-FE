@@ -93,11 +93,12 @@ const Platform = ({
   onTagKeyDown,
   tags,
   onTagRemove,
+  label,
 }) => {
   return (
     <Section>
       <Label>
-        <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> 플랫폼
+        <Icon src="/src/assets/Vector.svg" alt="필수 항목" /> {label}
       </Label>
       <StyledInputContainer>
         <StyledInput
