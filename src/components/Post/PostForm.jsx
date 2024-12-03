@@ -340,22 +340,31 @@ const radioOptions = [
       }
   
       // 리뷰 등록 요청
-      await submitReview({
+      const reviewData = {
         rating,          // 숫자
         content: review, // 문자열
         studyTime: completionTime, // 이미 올바른 value 값 (예: "A_WEEK")
         lectureId,       // 숫자 또는 문자열
         image: file,     // 파일 객체
-      });
+      };
   
+      // 요청 데이터를 콘솔에 출력
+      console.log("Sending review data to API:", reviewData);
+  
+      const response = await submitReview(reviewData);
+  
+      // 성공 메시지와 백엔드 응답 데이터 출력
+      console.log("Review submitted successfully:", response);
       alert('리뷰가 성공적으로 등록되었습니다!');
     } catch (error) {
       console.error('리뷰 등록 실패:', error.response?.data || error.message);
-      setErrorMessage('리뷰 등록 중 문제가 발생했습니다.');
+      if (error.response?.data?.message) {
+        setErrorMessage(error.response.data.message);
+      } else {
+        setErrorMessage('리뷰 등록 중 문제가 발생했습니다.');
+      }
     }
   };
-  
-  
   
   
   
