@@ -4,11 +4,12 @@ import Graph from "../Graph/Graph";
 import { ReviewContainer, Section, Count, ReviewButton } from "./DetailReview.style";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-const DetailReview = () => {
-  const { id } = useParams(); // lectureId 가져오기
+const DetailReview = ({ foundLectureId }) => {
+  console.log("F!", foundLectureId);
+
+  const id = foundLectureId;
   const [totalRating, setTotalRating] = useState(0); // 총 평점
   const [reviewCounts, setReviewCounts] = useState(0); // 리뷰 개수
   const [ratingCounts, setRatingCounts] = useState([]); // 별점별 개수
