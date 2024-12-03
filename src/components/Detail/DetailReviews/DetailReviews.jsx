@@ -3,7 +3,6 @@ import Card from "../Card/Card";
 import { ReviewsContainer, SortBtn, Span } from "./DetailReviews.style";
 import Paging from "../../Pagination/Pagination";
 import CustomDropdown from "../../List/CustomDropdown";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import { CardDiv } from "../Card/Card.style";
 
@@ -52,15 +51,18 @@ const DetailReviews = ({ foundLectureId }) => {
   }, [id]);
 
   // 정렬된 리뷰
-  const sortedReview =
-    order === "latest"
-      ? [...reviews].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // 최신순
-      : [...reviews].sort((a, b) => b.likes - a.likes); // 추천순
+  const sortedReviews = [...reviews].sort((a, b) => {
+    if (order === "latest") {
+      return new Date(b.createdAt) - new Date(a.createdAt); // 최신순 정렬
+    } else {
+      return b.likes - a.likes; // 추천순 정렬
+    }
+  });
 
   // 페이지네이션
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentPost = sortedReview.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPost = sortedReviews.slice(indexOfFirstPost, indexOfLastPost);
 
   // 페이지 변경 핸들러
   const handlePageChange = (pageNumber) => {
@@ -111,6 +113,7 @@ const DetailReviews = ({ foundLectureId }) => {
               date={new Date(review.createdAt).toLocaleDateString("ko-KR")}
               studyDate={review.studyTime}
               content={review.content}
+              likes={review.likes}
             />
           ))
         ) : (

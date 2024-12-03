@@ -3,7 +3,7 @@ import { CardDiv, ReviewDiv, LikeBtn, ReviewHeader, ReviewInfo, ReviewTxt } from
 import likeImg from "../../../assets/img/like.png";
 import { useState } from "react";
 
-const Card = ({ selectedStars, date, studyDate, content }) => {
+const Card = ({ selectedStars, date, studyDate, content, likes }) => {
   const [isLiked, setIsLiked] = useState(false); //좋아요 눌렀는지
   const [likeCount, setLikeCount] = useState(0); // 초기 좋아요 숫자
 
@@ -22,7 +22,7 @@ const Card = ({ selectedStars, date, studyDate, content }) => {
         <DetailStar selectedStars={selectedStars} width={"2vw"} />
         <LikeBtn onClick={handleLikeClick}>
           <img src={likeImg}></img>
-          <span style={{ fontSize: "17px", fontWeight: "400" }}>{likeCount}</span>
+          <span style={{ fontSize: "17px", fontWeight: "400" }}>{likes}</span>
         </LikeBtn>
       </ReviewHeader>
 
