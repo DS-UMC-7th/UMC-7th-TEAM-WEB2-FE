@@ -15,7 +15,7 @@ const ProgressBar = styled.div`
 `;
 
 const Progress = styled.div`
-  width: ${(props) => (props.count / props.reviewCount) * 100}%;
+  width: ${(props) => (props.reviewCount === 0 ? 0 : (props.count / props.reviewCount) * 100)}%;
   height: 20px;
   padding: 0;
   background-color: ${({ theme }) => theme.colors.main};

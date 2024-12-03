@@ -2,23 +2,35 @@ import { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import { ReviewsContainer, SortBtn, Span } from "./DetailReviews.style";
 import Paging from "../../Pagination/Pagination";
-import reviewsData from "/public/data/reviews.json";
 import CustomDropdown from "../../List/CustomDropdown";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { CardDiv } from "../Card/Card.style";
 
 const DetailReviews = () => {
-  const [reviews, setReviews] = useState(reviewsData.reviews);
+  const { id } = useParams(); // lectureId 가져오기
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  // 페이지 관련 상태
-  //const [products, setProducts] = useState([]); // 리스트에 나타낼 아이템들
-  //const [count, setCount] = useState(5); // 아이템 총 개수
+  const [reviews, setReviews] = useState([]); // 리뷰데이터
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지, 기본 1
   const [postPerPage] = useState(5); // 한 페이지에 5개씩
-  //const [indexOfLastPost, setIndexOfLastPost] = useState(0); // 현재 페이지의 마지막 아이템의 인덱스
-  //const [indexOfFirstPost, setIndexOfFirstPost] = useState(0); // 현재 페이지의 첫번째 아이템의 인덱스
-  //const [currentPost, setCurrentPost] = useState(0); // 현재 페이지에서 보여줄 아이템
+  const [order, setOrder] = useState("recommended"); // 리뷰 정렬 기준
+  const [totalPages, setTotalPages] = useState(1);
 
-  // 리뷰 정렬
-  const [order, setOrder] = useState("recommended");
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`${VITE_API_BASE_URL}/api/reviews/${id}?lectureId=${id}&page=${currentPage - 1}&sort=createdAt`);
+        if (response.data.isSuccess) {
+          setReviews(response.data.result.reviewList);
+          setTotalPages(response.data.result.totalPage);
+        }
+      } catch (error) {
+        console.log("DetailReviews 리뷰 데이터 가져오기 실패", error);
+      }
+    };
+    fetchReviews();
+  }, [id, currentPage]);
 
   // 정렬된 리뷰
   const sortedReview =
@@ -73,11 +85,17 @@ const DetailReviews = () => {
 
       <div style={{ width: "100%" }}>
         {currentPost.length > 0 ? (
-          currentPost.map((review, index) => (
-            <Card key={index} selectedStars={review.selectedStars} date={review.date} studyDate={review.studyDate} content={review.content} />
+          currentPost.map((review) => (
+            <Card
+              key={review.reviewId}
+              selectedStars={new Array(5).fill(false).map((_, index) => index < Math.floor(review.rating))}
+              date={new Date(review.createdAt).toLocaleDateString("ko-KR")}
+              studyDate={review.studyTime}
+              content={review.content}
+            />
           ))
         ) : (
-          <div>no posts.</div>
+          <CardDiv style={{ alignItems: "center", fontSize: "20px", display: "flex", justifyContent: "center" }}>등록된 리뷰가 없습니다.</CardDiv>
         )}
       </div>
 

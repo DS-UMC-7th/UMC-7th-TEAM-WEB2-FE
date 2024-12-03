@@ -28,7 +28,7 @@ const Card = ({ selectedStars, date, studyDate, content }) => {
 
       <ReviewDiv>
         <ReviewInfo>{date}</ReviewInfo>
-        <ReviewInfo>공부기간 : {studyDate}</ReviewInfo>
+        <ReviewInfo style={{ marginLeft: "10px" }}>공부기간 : {studyDate}</ReviewInfo>
       </ReviewDiv>
 
       <ReviewDiv>
