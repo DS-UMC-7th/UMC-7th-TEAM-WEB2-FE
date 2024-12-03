@@ -10,7 +10,7 @@ export const HomeContainer = styled.div`
 
 export const Title = styled.h2`
   color: ${({ theme }) => theme.colors.black};
-  font-family: "Elice DX Neolli OTF";
+  font-family: "Elice DX Neolli";
   font-size: 3.6rem;
   font-weight: 700;
   line-height: 124.9%;

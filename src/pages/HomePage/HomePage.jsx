@@ -1,23 +1,31 @@
 import { useNavigate } from "react-router-dom";
-
+import { useEffect, useState } from "react";
 import Banner from "../../components/Home/Banner";
 import GradientCard from "../../components/Home/GradientCard";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import ListCard from "../../components/Home/ListCard";
 import * as S from "./HomePage.style";
-import cardData from "../../utils/mocks/cardData";
-import listData from "../../utils/mocks/listData";
+import { getRecommendedReviews, getLatestReviews } from "../../apis/home/getHomeReviews";
 
 const HomePage = () => {
   const navigate = useNavigate();
 
-  // 클릭 시 각 필터에 맞는 쿼리 파라미터를 전달
+  const [recommendedReviews, setRecommendedReviews] = useState([]);
+  const [latestReviews, setLatestReviews] = useState([]);
+
+  useEffect(() => {
+    getRecommendedReviews().then(data => setRecommendedReviews(data)).catch(console.error);
+    getLatestReviews().then(data => setLatestReviews(data)).catch(console.error);
+  }, []);
+
   const handleClick = (filterType) => {
-    navigate(`/list?filter=${filterType}`);
+    navigate(`/list?sort=${filterType}`);
   };
+
   const handleListCardClick = (id) => {
     navigate(`/detail/${id}`);
   };
+
   return (
     <S.HomeContainer>
       <Banner />
@@ -28,8 +36,13 @@ const HomePage = () => {
         <S.TitleIcon icon={faAngleRight} onClick={() => handleClick("recommended")} />
       </S.Title>
       <S.CardContainer>
-        {cardData.map((card) => (
-          <GradientCard key={card.id} image={card.image} title={card.title} score={card.score} content={card.content} />
+        {recommendedReviews.map((card) => (
+          <GradientCard
+            key={card.reviewId}
+            lectureName={card.lectureName}
+            rating={card.rating}
+            content={card.content}
+          />
         ))}
       </S.CardContainer>
       <S.Line2 />
@@ -39,16 +52,16 @@ const HomePage = () => {
         <S.TitleIcon icon={faAngleRight} onClick={() => handleClick("latest")} />
       </S.Title>
       <S.ListCardContainer>
-        {listData.map((list) => (
+        {latestReviews.map((list) => (
           <ListCard
-            key={list.id}
-            title={list.title}
-            score={list.score}
-            company={list.company}
-            author={list.author}
-            date={list.date}
-            description={list.description}
-            onClick={() => handleListCardClick(list.id)}
+            key={list.reviewId}
+            lectureName={list.lectureName}
+            rating={list.rating}
+            platform={list.platform}
+            lectureTeacher={list.lectureTeacher}
+            createdAt={list.createdAt}
+            content={list.content}
+            onClick={() => handleListCardClick(list.reviewId)}
           />
         ))}
       </S.ListCardContainer>

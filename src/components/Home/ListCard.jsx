@@ -2,7 +2,15 @@ import { ListCardContainer, ListCardTitle, ListCardDescription, TitleContainer, 
 import star from "../../assets/star.svg";
 import starSelect from "../../assets/star_select.svg";
 
-const ListCard = ({ title, description, score, company, author, date, onClick  }) => {
+const ListCard = ({ lectureName, rating, platform, lectureTeacher, createdAt, content, onClick }) => {
+
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}.${month}.${day}`;
+  };
 
   const renderStars = () => {
     const stars = [];
@@ -10,9 +18,9 @@ const ListCard = ({ title, description, score, company, author, date, onClick  }
       stars.push(
         <img
           key={i}
-          src={i <= score ? starSelect : star} 
-          alt={i <= score ? "Selected star" : "Empty star"}
-          style={{ width: '27px', height: '27px'}} 
+          src={i <= rating ? starSelect : star} 
+          alt={i <= rating ? "Selected star" : "Empty star"}
+          style={{ width: '2.7rem', height: '2.7rem'}} 
         />
       );
     }
@@ -22,18 +30,18 @@ const ListCard = ({ title, description, score, company, author, date, onClick  }
   return (
     <ListCardContainer onClick={onClick}>
       <TitleContainer>
-        <ListCardTitle>{title}</ListCardTitle>
+        <ListCardTitle>{lectureName}</ListCardTitle>
         <Stars>{renderStars()}</Stars>
       </TitleContainer>
       <InfoContainer>
         <div>
-          <span>{company}</span>
+          <span>{platform}</span>
           <span>|</span>
-          <span>{author}</span>
+          <span>{lectureTeacher}</span>
         </div>
-        <span>{date}</span>
+        <span>{formatDate(createdAt)}</span>
       </InfoContainer>
-      <ListCardDescription>{description}</ListCardDescription>
+      <ListCardDescription>{content}</ListCardDescription>
     </ListCardContainer>
   );
 };

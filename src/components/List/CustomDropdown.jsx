@@ -3,24 +3,25 @@ import * as S from "./CustomDropdown.style";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
-const CustomDropdown = ({ title, options }) => {
+const CustomDropdown = ({ title, options, onChange }) => { 
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(title);
-  const [checkedOptions, setCheckedOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   const handleOptionClick = (option) => {
-    const newCheckedOptions = checkedOptions.includes(option)
-      ? checkedOptions.filter((item) => item !== option)
-      : [...checkedOptions, option];
-    setCheckedOptions(newCheckedOptions);
+    const newSelectedOption = selectedOption === option ? null : option;
+    setSelectedOption(newSelectedOption);
+
+    if (onChange) {
+      onChange(newSelectedOption);
+    }
   };
 
   return (
     <S.Container>
       <S.Header onClick={toggleDropdown} $isOpen={isOpen}>
-        <span>{selected}</span>
+        <span>{title}</span>
         <FontAwesomeIcon icon={isOpen ? faChevronDown : faChevronUp} />
       </S.Header>
       {isOpen && (
@@ -32,14 +33,13 @@ const CustomDropdown = ({ title, options }) => {
               <label>
                 <input 
                   type="checkbox" 
-                  checked={checkedOptions.includes(option)} 
+                  checked={selectedOption === option}
                   onChange={() => handleOptionClick(option)} 
                 />
-                <span /> {/* 체크박스를 대체할 이미지 */}
+                <span />
               </label>
             </S.Option>
           ))}
-
         </S.OptionsContainer>
       )}
     </S.Container>
