@@ -5,9 +5,11 @@ import { ReviewContainer, Section, Count, ReviewButton } from "./DetailReview.st
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const DetailReview = ({ foundLectureId }) => {
-  console.log("F!", foundLectureId);
+  const navigate = useNavigate();
+  console.log("강의아이디:  ", foundLectureId);
 
   const id = foundLectureId;
   const [totalRating, setTotalRating] = useState(0); // 총 평점
@@ -33,6 +35,11 @@ const DetailReview = ({ foundLectureId }) => {
     fetchReviews();
   }, [id]);
 
+  const handleNavigate = () => {
+    navigate("/post");
+    window.scrollTo(0, 0); // 페이지 이동 후 스크롤 맨 위로 이동
+  };
+
   // 별점 계산을 위해 총 평점에서 별점별 개수를 분리
   const averageRating = Math.round(totalRating * 10) / 10; // 소수점 첫째자리까지 표시
 
@@ -54,9 +61,7 @@ const DetailReview = ({ foundLectureId }) => {
 
           <Count fontSize={"15px"}>{reviewCounts}개의 리뷰가 있습니다.</Count>
 
-          <NavLink to="/post">
-            <ReviewButton>상세 리뷰 작성하기</ReviewButton>
-          </NavLink>
+          <ReviewButton onClick={handleNavigate}>상세 리뷰 작성하기</ReviewButton>
         </Section>
 
         <div>

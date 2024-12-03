@@ -2,7 +2,7 @@ import GraphBar from "./GraphBar";
 
 const Graph = ({ review, count }) => {
   // 별점별 개수
-  const [veryGood, good, average, bad, veryBad] = count;
+  const [veryBad, bad, average, good, veryGood] = count;
 
   return (
     <>

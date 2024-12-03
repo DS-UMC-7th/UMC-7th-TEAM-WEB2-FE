@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import Card from "../Card/Card";
 import { ReviewsContainer, SortBtn, Span } from "./DetailReviews.style";
 import Paging from "../../Pagination/Pagination";
-import CustomDropdown from "../../List/CustomDropdown";
 import axios from "axios";
 import { CardDiv } from "../Card/Card.style";
+import CustomDropdown2 from "../List2/CustomDropdown2";
 
 const DetailReviews = ({ foundLectureId }) => {
   const id = foundLectureId;
@@ -15,6 +15,7 @@ const DetailReviews = ({ foundLectureId }) => {
   const [postPerPage] = useState(5); // 한 페이지에 5개씩
   const [order, setOrder] = useState("recommended"); // 리뷰 정렬 기준
   const [totalPages, setTotalPages] = useState(1);
+  const [filters, setFilters] = useState({ category: "전체" }); // 필터 상태 추가
 
   useEffect(() => {
     const fetchAllReviews = async () => {
@@ -50,8 +51,11 @@ const DetailReviews = ({ foundLectureId }) => {
     setCurrentPage(1); // 강의 변경 시 페이지 초기화
   }, [id]);
 
+  // 별 갯수 필터링
+  const filteredReviews = filters.category === "전체" ? reviews : reviews.filter((review) => review.rating === parseInt(filters.category, 10));
+
   // 정렬된 리뷰
-  const sortedReviews = [...reviews].sort((a, b) => {
+  const sortedReviews = [...filteredReviews].sort((a, b) => {
     if (order === "latest") {
       return new Date(b.createdAt) - new Date(a.createdAt); // 최신순 정렬
     } else {
@@ -100,7 +104,7 @@ const DetailReviews = ({ foundLectureId }) => {
           </SortBtn>
         </div>
         <div>
-          <CustomDropdown title="전체" options={starOptions} onChange={(value) => handleDropdownChange("category", value)} />
+          <CustomDropdown2 title="전체" options={starOptions} onChange={(value) => handleDropdownChange("category", value)} />
         </div>
       </ReviewsContainer>
 
