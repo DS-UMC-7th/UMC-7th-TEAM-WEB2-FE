@@ -4,8 +4,10 @@ import ListCard from "../../components/Home/ListCard";
 import * as S from "../ListPage/ListPage.style";
 
 const fetchSearchResults = async (keyword, page = 0) => {
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   try {
-    const response = await fetch(`http://52.78.171.209:8080/api/search?keyword=${encodeURIComponent(keyword)}&page=${page}`, {
+    const response = await fetch(`${VITE_API_BASE_URL}/api/search?keyword=${encodeURIComponent(keyword)}&page=${page}`, {
       method: "GET",
       headers: {
         accept: "*/*",
