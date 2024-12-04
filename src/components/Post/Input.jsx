@@ -88,6 +88,17 @@ const SearchResultItem = styled.div`
   }
 `;
 
+/*const PlaceholderText = styled.span`
+  position: absolute;
+  right: 16px;
+  color: ${({ theme }) => theme.colors.main};
+  font-family: 'Pretendard Variable';
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 124.9%;
+`;*/
+
 const PlaceholderText = styled.span`
   position: absolute;
   right: 16px;
@@ -97,8 +108,9 @@ const PlaceholderText = styled.span`
   font-style: normal;
   font-weight: 500;
   line-height: 124.9%;
+cursor: pointer; /* 클릭 가능하도록 */
+  transition: opacity 0.2s ease-in-out;
 `;
-
 
 const ErrorMessage = styled.p`
   position: absolute;
@@ -109,6 +121,7 @@ const ErrorMessage = styled.p`
   margin: 0; /* 불필요한 여백 제거 */
   font-family: 'Pretendard Variable';
 `;
+
 
 
 const Input = ({
@@ -126,6 +139,10 @@ const Input = ({
   onTagRemove,
   characterLimit,
   error,
+  variant,
+  onManualInputClick, // 직접 입력하기 클릭 핸들러
+  isManualInput,
+  isSearchVisible,
 }) => {
   return (
     <Section>
@@ -139,25 +156,30 @@ const Input = ({
     value={value}
     onChange={onChange}
   />
+  {variant === 'lecture' && (
+ <PlaceholderText onClick={onManualInputClick}>직접 입력하기</PlaceholderText>
+
+        )}
   {error && <ErrorMessage>{error}</ErrorMessage>} {/* 에러가 있을 때만 렌더링 */}
   {characterLimit && (
     <PlaceholderText>{`${value.length}/${characterLimit}`}</PlaceholderText>
   )}
-  {searchResults.length > 0 && (
-    <SearchResultContainer>
-      {searchResults.map((result) => (
-        <SearchResultItem
-          key={result.id}
-          onClick={() => onResultClick(result)}
-        >
-          {result.name}
-          <br />
-          <div style={{ fontSize: '14px', color: '#888' }}>
-            {result.platform} | {result.instructor}
-          </div>
-        </SearchResultItem>
-      ))}
-    </SearchResultContainer>
+ {!isManualInput &&isSearchVisible&&searchResults.length > 0 && (
+  <SearchResultContainer>
+  {searchResults.map((result, index) => (
+    <SearchResultItem
+      key={index} // key 추가
+      onClick={() => onResultClick(result)} // 클릭 시 실행
+    >
+      {result.name}
+      <br />
+      <div style={{ fontSize: '14px', color: '#888' }}>
+        {result.platform} | {result.instructor}
+      </div>
+    </SearchResultItem>
+  ))}
+</SearchResultContainer>
+
   )}
 </StyledInputContainer>
 
