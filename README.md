@@ -1,5 +1,5 @@
 <div align="center">
-<img src="/public/reviewinREADME.png" width="400">
+<img src="/public/reviewinREADME.png" width="300">
 
   # REVIEW IN CLASS
 
