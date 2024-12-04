@@ -42,23 +42,25 @@ const StyledInput = styled.input`
 
   &:focus {
     border-color: ${({ theme }) => theme.colors.main};
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); /* 시각적 강조 */
+    box-shadow: none; /* 시각적 강조 */
+    outline: none; 
   }
 `;
 
 
 const SearchResultContainer = styled.div`
-  margin-top: 15px;
+  margin-top: 4px;
   position: absolute;
-  top: 50px;
   left: 0;
-  width: 100%;
+  top: calc(100% + 4px);
+  width: 99.9%;
   max-height: 250px;
   overflow-y: auto;
   z-index: 100;
   border: 1px solid ${({ theme }) => theme.colors.main};
   background: var(--WHITE, #fff);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  
 `;
 
 const SearchResultItem = styled.div`

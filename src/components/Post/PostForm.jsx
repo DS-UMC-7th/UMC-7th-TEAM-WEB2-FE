@@ -136,7 +136,14 @@ const handleSearch = useCallback(
             platform: item.platform, // 플랫폼
             instructor: item.teacher, // 강사명
           }));
-          setSearchResults(results); // 검색 결과 상태 저장
+
+           // 중복 제거: 강의명 기준
+           const uniqueResults = results.filter(
+            (result, index, self) =>
+              index === self.findIndex((r) => r.name === result.name)
+          );
+
+          setSearchResults(uniqueResults); // 검색 결과 상태 저장
         } else {
           setSearchResults([]); // 검색 실패 시 빈 배열
         }
