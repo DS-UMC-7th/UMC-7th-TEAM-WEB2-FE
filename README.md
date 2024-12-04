@@ -3,7 +3,7 @@
 
   # REVIEW IN CLASS
 
- 『UMC MINI PROJECT WEB TEAM 2 』
+ 『DUKSUNG UMC MINI PROJECT WEB TEAM 2 』
 </div>
 
 ## REVIEW IN CLASS
@@ -18,16 +18,14 @@
 ## 역할 분담
 
 ### 초기 세팅
-- vite + eslint + prettier 세팅 **`민하`**
-- theme + globalStyle 기본 스타일 세팅 **`채연`**
-- router 세팅 **`윤지`**
+- theme + globalStyle 기본 스타일 세팅 **`수정`**
+- router 세팅, 글꼴 세팅 **`효진`**
 - 리뷰어 어푸 설정, pr 템플릿, 이슈 템플릿 등 협업 세팅 **`수정`**
 
 ### 공통 컴포넌트
 - 헤더 & 푸터 **`진효`**
 - 커스텀 드롭다운 **`수정`**
-- ? **`효진`**
-
+- 별점 **`효진`**
 
 ### 페이지
 - 홈 화면 **`수정`**
