@@ -16,9 +16,7 @@ const ListPage = () => {
     duration: searchParams.get("studyTime") || "",
   });
 
-  const [sortOrder, setSortOrder] = useState(
-    searchParams.get("sort") === "recommended" ? "추천순" : "최신순"
-  );
+  const [sortOrder, setSortOrder] = useState(searchParams.get("sort") === "recommended" ? "추천순" : "최신순");
 
   const [listData, setListData] = useState([]);
 
@@ -69,37 +67,18 @@ const ListPage = () => {
     <S.Container>
       <S.OptionContainer>
         <S.LeftOptions>
-          <CustomDropdown
-            title="카테고리"
-            options={categoryOptions}
-            onChange={(value) => handleDropdownChange("category", value)}
-          />
-          <CustomDropdown
-            title="난이도"
-            options={difficultyOptions}
-            onChange={(value) => handleDropdownChange("difficulty", value)}
-          />
-          <CustomDropdown
-            title="수강 기간"
-            options={durationOptions}
-            onChange={(value) => handleDropdownChange("duration", value)}
-          />
+          <CustomDropdown title="카테고리" options={categoryOptions} onChange={(value) => handleDropdownChange("category", value)} />
+          <CustomDropdown title="난이도" options={difficultyOptions} onChange={(value) => handleDropdownChange("difficulty", value)} />
+          <CustomDropdown title="수강 기간" options={durationOptions} onChange={(value) => handleDropdownChange("duration", value)} />
           <S.SearchButton onClick={handleSearch}>검색</S.SearchButton>
-
         </S.LeftOptions>
 
         <S.RightOptions>
-          <S.SortButton
-            $isActive={sortOrder === "추천순"}
-            onClick={() => handleSortChange("추천순")}
-          >
+          <S.SortButton $isActive={sortOrder === "추천순"} onClick={() => handleSortChange("추천순")}>
             추천순
           </S.SortButton>
           <S.Divider />
-          <S.SortButton
-            $isActive={sortOrder === "최신순"}
-            onClick={() => handleSortChange("최신순")}
-          >
+          <S.SortButton $isActive={sortOrder === "최신순"} onClick={() => handleSortChange("최신순")}>
             최신순
           </S.SortButton>
         </S.RightOptions>

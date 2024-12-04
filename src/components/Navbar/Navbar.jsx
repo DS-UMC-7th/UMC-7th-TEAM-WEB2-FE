@@ -25,6 +25,7 @@ const Navbar = () => {
     if (!searchValue.trim()) return;
     if (query === searchValue) return;
     navigate(`/list?query=${encodeURIComponent(searchValue)}`);
+    setSearchValue("");
   };
 
   return (

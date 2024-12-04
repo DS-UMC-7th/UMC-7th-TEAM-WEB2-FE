@@ -3,28 +3,52 @@ import DetailStar from "../DetailStar/DetailStar";
 import Graph from "../Graph/Graph";
 import { ReviewContainer, Section, Count, ReviewButton } from "./DetailReview.style";
 import { NavLink } from "react-router-dom";
-import reviewsData from "/public/data/reviews.json";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const DetailReview = () => {
-  const reviews = reviewsData.reviews; // 리뷰 데이터 배열
-  const reviewCount = reviews.length; // 리뷰 개수
+const DetailReview = ({ foundLectureId }) => {
+  const navigate = useNavigate();
+  console.log("강의아이디:  ", foundLectureId);
 
-  // 모든 리뷰의 selectedStars에서 true 개수를 모두 합산
-  const totalTrueStars = reviews.reduce((acc, review) => {
-    const trueCount = review.selectedStars.filter((star) => star === true).length;
-    return acc + trueCount; // true의 개수를 누적
-  }, 0);
+  const id = foundLectureId;
+  const [totalRating, setTotalRating] = useState(0); // 총 평점
+  const [reviewCounts, setReviewCounts] = useState(0); // 리뷰 개수
+  const [ratingCounts, setRatingCounts] = useState([]); // 별점별 개수
 
-  const average = Math.round(totalTrueStars / reviewCount); //정수까지 나타냄
-  console.log(average);
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  const averageRating = Math.round((totalTrueStars / reviewCount) * 100) / 100; // 전체 평균 별점 -> 소수점 둘째자리까지
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`${VITE_API_BASE_URL}/api/rating_info/${id}`);
+        const data = response.data.result;
 
+        setTotalRating(data.totalRating); // 총 평점
+        setReviewCounts(data.reviewCounts); // 리뷰 개수
+        setRatingCounts(data.ratingCounts); // 별점별 개수
+      } catch (error) {
+        console.log("DetailReview.jsx 데이터 가져오는 중 오류", error);
+      }
+    };
+
+    fetchReviews();
+  }, [id]);
+
+  const handleNavigate = () => {
+    navigate("/post");
+    window.scrollTo(0, 0); // 페이지 이동 후 스크롤 맨 위로 이동
+  };
+
+  // 별점 계산을 위해 총 평점에서 별점별 개수를 분리
+  const averageRating = Math.round(totalRating * 10) / 10; // 소수점 첫째자리까지 표시
+
+  // DetailStar에 넘길 별점 상태 설정
   const selectedStars = Array(5).fill(false); // 기본적으로 false로 채운 5개의 배열
-  for (let i = 0; i < average; i++) {
+  const fullStars = Math.round(averageRating); // 평균 별점만큼 fullStars를 설정
+  for (let i = 0; i < fullStars; i++) {
     selectedStars[i] = true; // average 값만큼 true로 설정
   }
-
   const onStarClick = () => {};
 
   return (
@@ -35,15 +59,13 @@ const DetailReview = () => {
 
           <DetailStar selectedStars={selectedStars} />
 
-          <Count fontSize={"15px"}>{reviewCount}개의 리뷰가 있습니다.</Count>
+          <Count fontSize={"15px"}>{reviewCounts}개의 리뷰가 있습니다.</Count>
 
-          <NavLink to="/post">
-            <ReviewButton>상세 리뷰 작성하기</ReviewButton>
-          </NavLink>
+          <ReviewButton onClick={handleNavigate}>상세 리뷰 작성하기</ReviewButton>
         </Section>
 
         <div>
-          <Graph review={reviewCount} count={reviews} />
+          <Graph review={reviewCounts} count={ratingCounts} />
         </div>
       </ReviewContainer>
     </>
