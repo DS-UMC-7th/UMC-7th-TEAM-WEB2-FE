@@ -8,6 +8,7 @@ import { ThemeProvider } from "styled-components";
 import theme from "./styles/theme.js";
 import "./App.css";
 import RootLayout from "./components/layout/RootLayout.jsx";
+import Search from "./pages/Search/Search.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
       { path: "list", element: <ListPage /> },
       { path: "post", element: <PostPage /> },
       { path: "detail/:id", element: <DetailPage /> },
+      { path: "search", element: <Search /> },
     ],
   },
 ]);

@@ -1,4 +1,4 @@
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import { ImgDiv, Img } from "../Footer/Footer.style";
 import * as S from "./Navbar.style";
@@ -6,10 +6,9 @@ import React, { useState } from "react";
 
 const Navbar = () => {
   const [searchValue, setSearchValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-
-  const [searchParams, setSearchParams] = useSearchParams({ query: "" });
-  const query = searchParams.get("query");
 
   const onChange = (e) => {
     setSearchValue(e.target.value);
@@ -21,11 +20,44 @@ const Navbar = () => {
     }
   };
 
-  const onClick = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  const fetchSearchResults = async (keyword, page = 0) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/search?keyword=${encodeURIComponent(keyword)}&page=${page}`, {
+        method: "GET",
+        headers: {
+          accept: "*/*",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch search results");
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+      throw error;
+    }
+  };
+
+  const onClick = async () => {
     if (!searchValue.trim()) return;
-    if (query === searchValue) return;
-    navigate(`/list?query=${encodeURIComponent(searchValue)}`);
-    setSearchValue("");
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data = await fetchSearchResults(searchValue);
+      console.log("Search Results:", data); // 데이터 확인용
+      navigate(`/search?keyword=${encodeURIComponent(searchValue)}`);
+    } catch (err) {
+      navigate(`/search?`);
+    } finally {
+      setLoading(false);
+      setSearchValue(""); // 검색 후 입력 초기화
+    }
   };
 
   return (
@@ -54,6 +86,9 @@ const Navbar = () => {
           <S.SearchButton onClick={onClick} />
         </S.SearchDiv>
       </S.NavContainer>
+
+      {loading && <p>로딩 중...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </nav>
   );
 };
