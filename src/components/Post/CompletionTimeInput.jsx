@@ -66,16 +66,16 @@ const CompletionTimeInput = ({ selectedOption, onOptionClick, radioOptions }) =>
       </Label>
       <RadioGroup>
         {radioOptions.map((option, index) => (
-          <RadioOption key={index} onClick={() => onOptionClick(option)}>
+          <RadioOption key={index} onClick={() => onOptionClick(option.value)}>
             <img
               src={
-                selectedOption === option
+                selectedOption === option.value
                   ? "/src/assets/radio_select.svg" // 선택된 상태
                   : "/src/assets/radio.svg" // 선택되지 않은 상태
               }
               alt="라디오 버튼"
             />
-            <span>{option}</span>
+           <span>{option.label}</span>
           </RadioOption>
         ))}
       </RadioGroup>
