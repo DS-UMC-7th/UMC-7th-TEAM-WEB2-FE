@@ -145,6 +145,7 @@ const Input = ({
   onManualInputClick, // 직접 입력하기 클릭 핸들러
   isManualInput,
   isSearchVisible,
+  
 }) => {
   return (
     <Section>
