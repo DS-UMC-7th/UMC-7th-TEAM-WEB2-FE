@@ -12,7 +12,7 @@ export const CardContainer = styled.div`
   width: 27.5rem;
   max-width: 100%;
   height: 41.5rem;
-  box-shadow: 0 4px 6px rgba(229, 95, 0, 0.3); 
+  box-shadow: 0 4px 6px rgba(229,95,0, 0.2); 
   box-sizing: border-box;
 `;
 export const ImageContainer = styled.div`

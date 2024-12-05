@@ -16,7 +16,6 @@ const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true); // 로딩 상태 추가
 
   useEffect(() => {
-    // 추천 리뷰와 최신 리뷰를 동시에 불러오고, 둘 다 완료되면 로딩을 숨깁니다.
     Promise.all([getRecommendedReviews(), getLatestReviews()])
       .then(([recommendedData, latestData]) => {
         setRecommendedReviews(recommendedData);

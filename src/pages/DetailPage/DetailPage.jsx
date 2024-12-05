@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import DetailHeader from "../../components/Detail/DetailHeader/DetailHeader";
 import Gallery from "../../components/Detail/Gallery/Gallery";
 import DetailReview from "../../components/Detail/DetailReview/DetailReview";
 import DetailReviews from "../../components/Detail/DetailReviews/DetailReviews";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Loading from "../../components/Loading/Loading";
 
 const DetailPage = () => {
   const { id } = useParams(); // reviewId 가져오기
@@ -79,7 +80,7 @@ const DetailPage = () => {
   }, [foundLectureId]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!lectureDetail) {
