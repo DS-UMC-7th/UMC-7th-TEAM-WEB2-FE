@@ -124,7 +124,7 @@ const validateField = async (field, value, setError) => {
 };
 
 
-const handleSearch = useCallback(
+/*const handleSearch = useCallback(
   debounce(async (value) => {
     try {
       if (value) {
@@ -136,7 +136,45 @@ const handleSearch = useCallback(
             platform: item.platform, // 플랫폼
             instructor: item.teacher, // 강사명
           }));
-          setSearchResults(results); // 검색 결과 상태 저장
+
+           // 중복 제거: 강의명 기준
+           const uniqueResults = results.filter(
+            (result, index, self) =>
+              index === self.findIndex((r) => r.name === result.name)
+          );
+
+          setSearchResults(uniqueResults); // 검색 결과 상태 저장
+        } else {
+          setSearchResults([]); // 검색 실패 시 빈 배열
+        }
+      } else {
+        setSearchResults([]); // 검색어가 비어있으면 결과 초기화
+      }
+    } catch (error) {
+      console.error('검색 실패:', error.response?.data || error.message);
+      setSearchResults([]);
+    }
+  }, 500), // 디바운스 500ms
+  []
+);*/
+
+const handleSearch = useCallback(
+  debounce(async (value) => {
+    try {
+      if (value) {
+        const response = await searchLecture(value); // `/api/search` 호출
+        if (response.data.isSuccess) {
+          const { lectureId, lectureName, platform, teacher } = response.data.result;
+
+          // 검색 결과에 강의 정보를 추가
+          setSearchResults([
+            {
+              lectureId, // 강의 ID
+              name: lectureName, // 강의명
+              platform, // 플랫폼
+              instructor: teacher, // 강사명
+            },
+          ]);
         } else {
           setSearchResults([]); // 검색 실패 시 빈 배열
         }
@@ -151,8 +189,21 @@ const handleSearch = useCallback(
   []
 );
 
+
 const handleLectureSubmit = async () => {
   try {
+    // 강의 등록 전 강의명 중복 확인
+    const response = await searchLecture(lectureName); // 강의명으로 검색
+    const existingLecture = response.data.result.find(
+      (lecture) => lecture.lectureName === lectureName && lecture.teacher === instructorName
+    );
+
+    if (existingLecture) {
+      alert("이미 등록된 강의입니다. 강의명을 다시 확인해주세요.");
+      setSelectedLectureId(existingLecture.lectureId); // 이미 존재하는 강의 ID 저장
+      return;
+    }
+
     if (!isManualInput || !lectureName || !instructorName || tags.length === 0 || isLectureSubmitted) {
       return;
     }
@@ -166,8 +217,9 @@ const handleLectureSubmit = async () => {
       image: file || null, // 파일이 없으면 null 전달
     };
 
-    const response = await registerLecture(lectureData);
-    setLectureId(response.result.lectureId); // 반환된 강의 ID 저장
+    const registerResponse = await registerLecture(lectureData);
+    setLectureId(registerResponse.result.lectureId); // 반환된 강의 ID 저장
+    setSelectedLectureId(registerResponse.result.lectureId); // 상태에 설정
     setIsLectureSubmitted(true); // 등록 완료 상태로 설정
     alert('강의 정보가 등록되었습니다.');
   } catch (error) {
@@ -175,7 +227,6 @@ const handleLectureSubmit = async () => {
     alert('강의 등록 중 오류가 발생했습니다.');
   }
 };
-
 
 
 
@@ -214,13 +265,16 @@ const handleReviewChange = (e) => {
   setReview(value);
   validateField('review', value, setReviewError); // 실시간 유효성 검사
 };
+
+
 const handleResultClick = (result) => {
-  setLectureName(result.name);
-  setInstructorName(result.instructor);
-  setTags([result.platform]);
-  setSelectedLectureId(result.id);
-  setSearchResults([]);
-  setIsManualInput(false);
+  console.log("Selected lecture result:", result); // 디버깅: 선택된 강의 정보
+  setLectureName(result.name); // 강의명 설정
+  setInstructorName(result.instructor); // 강사명 설정
+  setTags([result.platform]); // 플랫폼 설정
+  setSelectedLectureId(result.lectureId); // 검색된 강의 ID 설정
+  setSearchResults([]); // 검색 결과 초기화
+  setIsManualInput(false); // 수동 입력 비활성화
   setIsSearchVisible(false); // 검색 결과 숨기기
 };
 
@@ -305,41 +359,41 @@ const radioOptions = [
 ];
 
 
+ 
+
   const handleSubmit = async () => {
     try {
       await schema.validate(
         { lectureName, instructorName, review },
         { abortEarly: false }
       );
-
-      let lectureId = selectedLectureId;
-
+  
+      let lectureId = selectedLectureId; // 검색 또는 등록된 lectureId 사용
+  
       if (!lectureId && isManualInput) {
         const lectureResponse = await registerLecture({
-          name: lectureName, // 강의명
-          teacher: instructorName, // 강사명
-          platform: tags[0], // 플랫폼 태그 중 첫 번째 값 사용
-          category: null, // category 기본값
-          level: null, // level 기본값
+          name: lectureName,
+          teacher: instructorName,
+          platform: tags[0],
+          category: null,
+          level: null,
         });
         lectureId = lectureResponse.result.lectureId; // 등록된 강의 ID
       }
-
+  
       // 리뷰 등록 요청
       const reviewData = {
         rating,          // 숫자
         content: review, // 문자열
-        studyTime: completionTime, // 이미 올바른 value 값 (예: "A_WEEK")
-        lectureId,       // 숫자 또는 문자열
+        studyTime: completionTime, // 이미 올바른 value 값
+        lectureId: selectedLectureId,       // 검색 또는 등록된 lectureId 사용
         image: file,     // 파일 객체
       };
-
-       // 요청 데이터를 콘솔에 출력
-       console.log("Sending review data to API:", reviewData);
   
-       const response = await submitReview(reviewData);
-
-      // 성공 메시지와 백엔드 응답 데이터 출력
+      console.log("Sending review data to API:", reviewData);
+  
+      const response = await submitReview(reviewData);
+  
       console.log("Review submitted successfully:", response);
       alert('리뷰가 성공적으로 등록되었습니다!');
     } catch (error) {
@@ -351,6 +405,7 @@ const radioOptions = [
       }
     }
   };
+  
 
   
   
