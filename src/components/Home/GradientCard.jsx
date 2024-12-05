@@ -1,9 +1,9 @@
 import { CardContainer, Image, Title, Score, Content } from "./GradientCard.style";
 import star from "../../assets/star.svg"; 
 import starSelect from "../../assets/star_select.svg";
-import defaultImage from "../../assets/HomeImg/defaultImage.jpg"
+import defaultCardImage from "../../assets/HomeImg/defaultCardImage.png"
 
-const GradientCard = ({ lectureName, rating, content, image }) => {
+const GradientCard = ({ lectureName, rating, content, imageUrls }) => {
 
   const renderStars = () => {
     const stars = [];
@@ -22,7 +22,14 @@ const GradientCard = ({ lectureName, rating, content, image }) => {
 
   return (
     <CardContainer>
-      <Image src={image || defaultImage} alt="Card image" />
+      <Image
+        src={imageUrls && imageUrls !== "" ? imageUrls : defaultCardImage}
+        alt="Card image"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = defaultCardImage;
+        }}
+      />
       <Title>{lectureName}</Title>
       <Score>{renderStars()}</Score>
       <Content>{content}</Content>

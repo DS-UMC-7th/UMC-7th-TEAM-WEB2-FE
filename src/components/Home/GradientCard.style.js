@@ -15,14 +15,23 @@ export const CardContainer = styled.div`
   box-shadow: 0 4px 6px rgba(229, 95, 0, 0.3); 
   box-sizing: border-box;
 `;
-
-export const Image = styled.img`
+export const ImageContainer = styled.div`
   width: 23.5rem;
-  height: auto;
+  height: 21rem;
   border-radius: 8px;
   object-fit: cover;
   margin-bottom: 1.2rem;
+  
 `;
+
+export const Image = styled.img`
+  width: 23.5rem;
+  height: 21rem;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-bottom: 1.2rem;
+`;
+
 
 export const Score = styled.div`
   display: flex; 
@@ -66,5 +75,5 @@ export const Content = styled.p`
   margin: 0.5rem 0;
   box-sizing: border-box;
   width: 23.5rem;
-
+  height: 4.8rem;
 `;

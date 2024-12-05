@@ -39,6 +39,7 @@ const HomePage = () => {
         {recommendedReviews.map((card) => (
           <GradientCard
             key={card.reviewId}
+            imageUrls = {card.imageUrls}
             lectureName={card.lectureName}
             rating={card.rating}
             content={card.content}
