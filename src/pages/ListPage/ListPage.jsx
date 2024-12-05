@@ -5,6 +5,7 @@ import ListCard from "../../components/Home/ListCard";
 import { fetchReviews } from "../../apis/list/fetchReviews";
 import * as S from "./ListPage.style";
 import { categoryMap, difficultyMap, durationMap, sortMap } from "../../utils/constants/listConstants";
+import Loading from "../../components/Loading/Loading";
 
 const ListPage = () => {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ const ListPage = () => {
   const [sortOrder, setSortOrder] = useState(searchParams.get("sort") === "recommended" ? "추천순" : "최신순");
 
   const [listData, setListData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 관리
 
   const updateSearchParams = () => {
     const params = {};
@@ -30,6 +32,7 @@ const ListPage = () => {
   };
 
   const handleSearch = () => {
+    setIsLoading(true); // 검색 시작 시 로딩 상태 true
     fetchReviews(filters, sortOrder)
       .then((data) => {
         setListData(data);
@@ -37,6 +40,9 @@ const ListPage = () => {
       })
       .catch((error) => {
         console.error("Failed to fetch reviews:", error);
+      })
+      .finally(() => {
+        setIsLoading(false); // 데이터 로딩 후 로딩 상태 false
       });
   };
 
@@ -84,20 +90,25 @@ const ListPage = () => {
         </S.RightOptions>
       </S.OptionContainer>
 
-      <S.ListDataComponent>
-        {listData.map((list) => (
-          <ListCard
-            key={list.reviewId}
-            lectureName={list.lectureName}
-            rating={list.rating}
-            platform={list.platform}
-            lectureTeacher={list.lectureTeacher}
-            createdAt={list.createdAt}
-            content={list.content}
-            onClick={() => handleListCardClick(list.reviewId)}
-          />
-        ))}
-      </S.ListDataComponent>
+      {/* 로딩 상태일 때 로딩 컴포넌트 표시 */}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <S.ListDataComponent>
+          {listData.map((list) => (
+            <ListCard
+              key={list.reviewId}
+              lectureName={list.lectureName}
+              rating={list.rating}
+              platform={list.platform}
+              lectureTeacher={list.lectureTeacher}
+              createdAt={list.createdAt}
+              content={list.content}
+              onClick={() => handleListCardClick(list.reviewId)}
+            />
+          ))}
+        </S.ListDataComponent>
+      )}
     </S.Container>
   );
 };

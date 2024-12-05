@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const HomeContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  
 `;
 
 export const Title = styled.h2`
