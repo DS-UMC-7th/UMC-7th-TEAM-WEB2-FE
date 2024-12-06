@@ -1,12 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
-import { ImgDiv, Img } from "../Footer/Footer.style";
+import { Img } from "../Footer/Footer.style";
 import * as S from "./Navbar.style";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const Navbar = () => {
   const [searchValue, setSearchValue] = useState("");
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -45,7 +44,6 @@ const Navbar = () => {
   const onClick = async () => {
     if (!searchValue.trim()) return;
 
-    setLoading(true);
     setError(null);
 
     try {
@@ -55,7 +53,6 @@ const Navbar = () => {
     } catch (err) {
       navigate(`/search?`);
     } finally {
-      setLoading(false);
       setSearchValue(""); // 검색 후 입력 초기화
     }
   };
@@ -87,7 +84,6 @@ const Navbar = () => {
         </S.SearchDiv>
       </S.NavContainer>
 
-      {loading && <p>로딩 중...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </nav>
   );

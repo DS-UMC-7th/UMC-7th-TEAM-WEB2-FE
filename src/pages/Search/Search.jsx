@@ -2,7 +2,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ListCard from "../../components/Home/ListCard";
 import * as S from "../ListPage/ListPage.style";
-
+import Loading from "../../components/Loading/Loading";
 const fetchSearchResults = async (keyword, page = 0) => {
   const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -66,7 +66,7 @@ const SearchPage = () => {
     window.location.reload();
   };
 
-  if (loading) return <div>로딩 중...</div>;
+  if (loading) return <Loading />;
   if (error) return <div>오류 발생: {error}</div>;
 
   return (
